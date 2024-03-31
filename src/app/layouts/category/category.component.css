@@ -1,0 +1,8 @@
+.validation-error{
+    color: red;
+    font-size: 10px ;
+}
+.pagination{
+    padding: 20px 16px;
+    float: right;
+}

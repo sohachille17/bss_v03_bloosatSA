@@ -1,0 +1,106 @@
+<ng-template #loading>
+  <app-spinner></app-spinner>
+</ng-template>
+<div  id="print-section">
+<div class="invoice-box" *ngIf="paymentData else loading" >
+  <table>
+      <tr class="top">
+          <td colspan="2">
+              <table>
+                  <tr>
+                      <td class="title">
+                          <img class="blooLogo" [src]="PICTURE" alt="Company logo" style="width: 100%; max-width: 300px" />
+                      </td>
+
+                      <td>
+                          REF : {{paymentData.billReference}}<br />
+                          Created: {{paymentData.created_at | date:'short'}}<br />
+                          payment Date: {{paymentData.payementDate }}<br />
+
+                      </td>
+                  </tr>
+              </table>
+          </td>
+      </tr>
+
+      <tr class="information">
+          <td colspan="2">
+              <table>
+                  <tr>
+                      <td>
+                          BP . 750 Yaounde<br />
+                          RC/YAO/2016/B/703 NUI : MO71612552616Y<br />
+                          Tel: (+237) 242 00 18 19 / (+237) 699 82 70 90<br />
+                          www.bloosat.com Email: info@bloosat.com<br />
+
+                      </td>
+
+                      <td>
+                          {{paymentData.username}}.<br />
+                          {{paymentData.siteName}}<br />
+
+                      </td>
+                  </tr>
+              </table>
+          </td>
+      </tr>
+
+      <tr class="heading">
+          <td style="color: white;">Payment Method</td>
+
+          <td>#</td>
+      </tr>
+
+      <tr class="details">
+          <td>{{paymentData.paymentMethod}}</td>
+
+          <td>
+              <input type="checkbox" [checked]="check">
+          </td>
+      </tr>
+
+      <tr class="heading">
+          <td style="color: white;">Item</td>
+
+          <td>Price</td>
+      </tr>
+
+      <tr class="item">
+          <td>Amount deposit</td>
+
+          <td>{{ paymentData.amount | currency: 'XOF'}}</td>
+      </tr>
+
+
+
+      <tr class="item last">
+          <td>Status</td>
+
+          <td style="color: green; font-weight:bold">PAID</td>
+      </tr>
+
+      <tr class="total">
+          <td></td>
+
+          <td style="color: green; font-weight:bolder">Total: {{ paymentData.amount | currency: 'XOF'}}</td>
+      </tr>
+  </table>
+
+
+</div>
+</div>
+<div class="footer-payment" *ngIf="paymentData">
+  <button type="button" class="btn btn-secondary" routerLink="/big-customers">  back</button>
+  <button class="btn btn-primary"    [useExistingCss]="true"
+  printSectionId="print-section"
+   ngxPrint>  generate</button>
+
+</div>
+
+
+
+
+
+
+
+

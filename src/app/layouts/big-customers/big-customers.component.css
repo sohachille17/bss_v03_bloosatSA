@@ -1,0 +1,26 @@
+.modal-title{
+  color: blue;
+}
+
+.validation-error{
+  color: red;
+  font-size: 10px ;
+}
+.unique_:hover, .new-i:hover{
+  /* background-color: green; */
+  cursor: pointer;
+  color: white;
+}
+.pagination{
+  padding: 20px 16px;
+  float: right;
+}
+.new-i{
+  color: green;
+}
+.new-i:hover{
+  color: white;
+}
+.card-header{
+display: flex;
+}

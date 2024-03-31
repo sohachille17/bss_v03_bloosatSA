@@ -1,0 +1,506 @@
+<div class="pcoded-wrapper">
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10" *ngIf="isedit === true">Edit Invoice</h5>
+                                        <h5 class="m-b-10" *ngIf="isedit === false">Create Invoice</h5>
+                                    </div>
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="#!">BSS Facture</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+                        <!-- Form  Submit here-->
+
+                        <!-- [ form-element ] start -->
+                    <div class="col-sm-12">
+                    <form [formGroup]="invoiceForm" (ngSubmit)="saveInvoice()">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Date d'aujourdhui : {{date__now}}</h5>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="marc">
+                                        <h5  *ngIf="isedit === true">Modifier Facture</h5>
+                                        <h5  *ngIf="isedit === false">Créer Facture</h5>
+                                        <div *ngIf="isedit === true" class="col-sm-2">
+                                            <label>BLOO FEFERENCE :</label>
+                                            <input formControlName="billNumber" type="text" placeholder="REF" class="form-control"></div>
+                                        </div>
+
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+
+                                                <div class="form-group ">
+                                                    <label  class="form-label">Fait par :</label>
+                                                    <div class="col-sm-9">
+
+                                                        <input type="text" placeholder="Bloosat SA" class="form-control" id="inputPassword" disabled>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group ">
+
+                                                    <div class="col-sm-9">
+                                                        <input type="date" formControlName="dateLimit" placeholder="Date d échéance" class="form-control" id="inputPassword">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+
+                                                    <div class="col-sm-9">
+                                                        <input type="text" formControlName="serviceAddress" placeholder="address du service" class="form-control" id="inputPassword">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+
+                                                    <div class="col-sm-9">
+                                                        <input type="text" formControlName="postalAddress" placeholder="BP" class="form-control" id="inputPassword">
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+                                        </div>
+                                        <div class="col-md-6">
+
+
+                                                <div class="form-group">
+                                                   <div class="col-sm-9">
+                                                    <label for="exampleFormControlTextarea1">Info du Client </label>
+                                                    <select (change)="customerChange()" formControlName="customer_id" class="form-control" id="exampleFormControlSelect1">
+                                                        <option *ngFor="let customer of customerData" [value]="customer.id" >{{customer.name}}</option>
+
+                                                    </select>
+                                                   </div>
+
+                                                </div>
+                                                <div class="col-sm-9 non">
+                                                    <label >Product Name :</label>
+                                                    <input type="text" formControlName="customerName"  class="form-control qty" >
+                                                </div>
+                                                <div class="form-group ">
+
+                                                    <div class="col-sm-9">
+                                                        <input type="email" formControlName="customerEmailAddress" placeholder="address mail" class="form-control"  id="inputPassword" >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+
+                                                    <div class="col-sm-9">
+                                                        <input type="text" formControlName="websiteLink" placeholder="site" class="form-control"  id="inputPassword" >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group ">
+
+                                                    <div class="col-sm-9">
+                                                        <input type="text" formControlName="phoneNumber" placeholder="telephone" class="form-control" id="inputPassword">
+                                                    </div>
+                                                </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="card">
+
+                                <div class="card-body">
+                                    <h5>System De Tax</h5>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-9">
+                                                     <label for="exampleFormControlTextarea1">Type :</label>
+                                                     <select formControlName="type"  class="form-control" id="exampleFormControlSelect1" (change)="onCheckType()">
+                                                         <option>Proforma</option>
+                                                         <option>Redevance</option>
+                                                     </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-9">
+                                                     <label for="exampleFormControlTextarea1">Device :</label>
+                                                     <select formControlName="currency" class="form-control" id="exampleFormControlSelect1">
+                                                         <option>Fcfa</option>
+                                                         <!-- <option>USD (United State Dollar)</option>
+                                                         <option>CAD (Canadian Dollar)</option> -->
+                                                     </select>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+
+                                                <div class="form-group ">
+
+                                                    <div class="col-sm-9">
+                                                        <label for="exampleFormControlTextarea1">Tax :</label>
+                                                        <input (change)="summaryCalculation()" formControlName="tvaAmount" type="number" placeholder="0.00%" class="form-control" id="inputPassword">
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                                <div class="form-group ">
+
+                                                    <div class="col-sm-9">
+                                                        <label for="exampleFormControlTextarea1">Réduction/Promo :</label>
+                                                        <input (change)="summaryCalculation()" type="number" formControlName="discount" placeholder="0.00%" class="form-control" id="inputPassword">
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group check" style="display: none;">
+
+                                                        <!-- Rounded switch -->
+
+                                                    <label class="switch">
+                                                        <input formControlName="status" type="checkbox" (change)="onChange($event)">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    <label class="form-check-label">Status ( status de la facture payer / non payer)</label>
+
+
+                                                </div>
+
+
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                            <div class="card">
+
+
+                                <div class="card-body">
+                                    <h5>{{product_and_service}}</h5>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+
+                                        <div formArrayName="invoice_item">
+                                            <div class="form-group flex"  *ngFor="let items of ivProduct.controls;let i=index" [formGroupName]="i">
+
+                                                    <div *ngIf="type === 'Proforma'" class="col-sm-4"><a class="num">{{i+1}} :</a>
+                                                     <label for="exampleFormControlTextarea1">Product && Service Name</label>
+                                                     <select (change)="changeItems(i)" formControlName="product_id" class="form-control" id="exampleFormControlSelect1" >
+                                                        <option value="">--SELECT--OPTION</option>
+                                                         <option *ngFor="let product_service of product_service" value={{product_service.id}}>{{product_service.name}}--&&--{{product_service.type}}</option>
+
+
+
+                                                     </select>
+                                                    </div>
+
+
+
+                                                    <div *ngIf="type === 'Redevance'"class="col-sm-4">
+                                                        <label for="exampleFormControlTextarea1">Product Name</label>
+                                                        <select
+                                                        (change)="changeItems(i)"
+                                                        class="form-control"
+                                                        formControlName="product_id"
+                                                        >
+                                                            <option value="">--SELECT--OPTION</option>
+                                                           <option *ngFor="let service of serviceData" value="{{service.id}}">{{service.serviceName}}</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-sm-2 non">
+                                                        <label >Product Name :</label>
+                                                        <input type="text"
+                                                        (change)="itemCalculation(i)"
+                                                         formControlName="product_name"
+                                                         class="form-control qty"
+                                                         >
+
+
+                                                    </div>
+
+                                                    <div class="col-sm-2">
+                                                        <label >Quantity :</label>
+                                                        <input type="number" (change)="itemCalculation(i)" formControlName="quantity"  class="form-control qty" >
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label for="exampleFormControlTextarea1"> Sales Price</label>
+                                                        <input type="text" (change)="itemCalculation(i)" formControlName="unit_price"  class="form-control qty" >
+
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label >Total :</label>
+                                                       <input type="text"
+                                                       formControlName="total"
+                                                       class="form-control qty"
+
+                                                       >
+
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <label for="exampleFormControlTextarea1">Actions :</label>
+                                                       <button (click)="onRemoveProduct(i)"  type="button" class="btn btn-danger" ><i style="font-size: 20px;" class='bx bxs-trash'></i></button>
+                                                    </div>
+
+
+
+
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+                                                    <button (click)="addProducts()"  type="button" class="btn btn-primary"><i class='bx bx-plus-medical'></i></button>
+                                                </div>
+
+
+
+
+
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <!-- Details card for billing -->
+
+                            <div class="card">
+
+                                <div class="card-body">
+                                    <h5>Detaills</h5>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-md-12 bill">
+                                            <div class="details-billings">
+
+                                                <div class="items">
+                                                    <span  class="head">Subtotal :</span>
+                                                    <span class="sub">{{total__f | currency:'XAF'}}</span>
+                                                </div>
+                                                <div class="items">
+                                                    <span  class="head">Rbais :</span>
+                                                    <span class="sub">{{discount__amount}}</span>
+                                                </div>
+                                                <div class="items">
+                                                    <span  class="head">Total_s :</span>
+                                                    <span class="sub">{{total_sou | currency: 'XOF'}}</span>
+                                                </div>
+                                                <div class="items">
+                                                    <span class="head">Tax :</span>
+                                                    <span class="sub">{{final_tax_amount | currency: 'XOF'}}</span>
+                                                </div>
+                                                <div class="items">
+                                                    <span class="head">Droit d'accises :</span>
+                                                    <span class="sub">{{droit_daccises | currency:'XOF'}}</span>
+                                                </div>
+                                                <div class="items">
+                                                    <span class="head">MONTAN TTC :</span>
+                                                    <span class="sub">{{TTC_AMOUNT_CALC | currency: 'XOF'}}</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="details-billings">
+                                                <div class="total">
+                                                    <span class="main-total">Total: </span>
+                                                    <span class="sub-total">{{total__net| currency: 'XAF'}}</span>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="form-group wel">
+
+                                                <label>Note :</label>
+                                                <textarea formControlName="small_note"  cols="80" rows="2" class="form-control" placeholder="Thanks for your fidelity we (BLOOSAT 😊😊) welcome provide good alternative for your business"></textarea>
+                                                <br>
+                                                <div class="box-section">
+                                                    <button *ngIf="isedit === true" type="submit" class="btn btn-primary"><i class='bx bxs-edit'> Update</i></button>
+                                                    <button *ngIf="isedit === false" type="submit" class="btn btn-success"><i class='bx bx-plus-medical'> Save</i></button>
+                                                </div>
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                </form>
+
+                            <div class="row">
+
+
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                           <h4> Facture Récente</h4>
+                                        </div>
+                                        <div class="card-body table-border-style">
+                                            <div class="table-responsive">
+
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                        <th>Bill Number</th>
+                                                        <th style="font-weight: bolder; color: black;">Customer Name</th>
+                                                        <th style="color: blue; font-weight:bolder">Amount</th>
+                                                        <th>Reductions</th>
+                                                        <th>tax</th>
+                                                        <th style=" font-weight:bol;">Status</th>
+                                                        <th>Registered Date</th>
+                                                        <th>Date limit</th>
+                                                        <th>Actions</th>
+
+
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <div *ngIf="receiptRecentData.length  < 1 spinner">
+                                                            <app-spinner></app-spinner>
+                                                        </div>
+
+                                                        <tr *ngFor="let recentBills of receiptRecentData | slice:-2; let i = index">
+                                                            <td>{{recentBills.billNumber}}</td>
+                                                    <td style="font-weight: bolder; color: black;">{{recentBills.customerName}}</td>
+                                                            <td style="color: blue; font-weight:bolder">{{recentBills.total | currency: 'XOF'}}</td>
+                                                            <td>{{recentBills.reduction_in | currency: 'XOF' }} </td>
+                                                            <td>{{recentBills.tax_in | currency: 'XOF'}}</td>
+                                                            <!-- <td>{{invoice.status}}</td> -->
+                                                            <td *ngIf="recentBills.status == 1">
+                                                                <span class="badge badge-pill badge-success">paid</span>
+                                                            </td>
+                                                            <td *ngIf="recentBills.status == 0">
+                                                                <span class="badge badge-pill badge-danger">unpaid</span>
+                                                            </td>
+
+
+
+
+                                                            <td>{{recentBills.created_at | date: 'short'}}</td>
+                                                            <td>{{recentBills.dateLimit}}</td>
+
+                                                            <td>
+                                                                <div class="btn-group mb-2 mr-2">
+                                                                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                                                                    <div class="dropdown-menu">
+
+
+
+
+
+                                                                        <a class="dropdown-item"  data-target="#exampleModal" data-toggle="modal" (click)="onDeleteInvoice(recentBills.id)"  >delete</a>
+
+                                                                        <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" (click)="onPrintInvoice(recentBills.id)">view</a>
+
+                                                                    </div>
+
+                                                                </div>
+                                                                                                                  <!-- Details fo customer -->
+
+                                                            </td>
+
+
+
+                                                        </tr>
+
+
+
+
+
+                                                    </tbody>
+                                                </table>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+
+                          <!-- Form  Submit here-->
+
+
+
+
+                        <!-- [ form-element ] end -->
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

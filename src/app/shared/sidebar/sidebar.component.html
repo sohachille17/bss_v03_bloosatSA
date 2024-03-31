@@ -1,0 +1,80 @@
+
+
+		<div class="navbar-wrapper ">
+			<div class="navbar-brand header-logo">
+				<a routerLink="/dasboard" class="b-brand">
+					<!-- <img src="../assets/images/logo.svg" alt="" class="logo images"> -->
+					<h3 style="color: white;">Bloosat SA</h3>
+					<img src="./assets/images/logo-icon.svg" alt="" class="logo-thumb images">
+				</a>
+				<a class="mobile-menu" id="mobile-collapse" routerLink="/dasboard"><span></span></a>
+			</div>
+			<div class="navbar-content scroll-div">
+				<ul class="nav pcoded-inner-navbar">
+					<li class="nav-item pcoded-menu-caption">
+						<label>Navigation</label>
+					</li>
+					<li class="nav-item">
+						<a routerLink="/" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Menu Principale</span></a>
+					</li>
+					<li class="nav-item pcoded-menu-caption">
+
+						<label>CLIENTS</label>
+					</li>
+					<li *ngIf="userRole === 'admin' || userRole === 'financial' || userRole === 'commercial' " class="nav-item pcoded-hasmenu">
+						<a routerLink="/customers" class="nav-link"><span class="pcoded-micon"><i class='bx bx-user'></i></span><span class="pcoded-mtext">List des clients</span></a>
+					</li>
+
+
+					<li *ngIf="userRole === 'admin' || userRole === 'financial' " class="nav-item pcoded-hasmenu">
+						<a routerLink="/big-customers" class="nav-link"><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Grand clients</span></a>
+					</li>
+					<!-- <li *ngIf="userRole === 'admin' || userRole === 'financial' " class="nav-item pcoded-hasmenu">
+						<a (click)="stillWorkingOn()" class="nav-link"><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Grand clients</span></a>
+					</li> -->
+
+					<li *ngIf="userRole === 'admin' || userRole === 'financial' " class="nav-item pcoded-menu-caption"> <!--List of grand customers  : ( ( START) ) -->
+						<label>Gestion de Stock</label>
+					</li>
+					<li *ngIf="userRole === 'admin' || userRole === 'financial' " class="nav-item pcoded-hasmenu">
+						<a routerLink="/products" class="nav-link"><span class="pcoded-micon"><i class='bx bxs-shopping-bags'></i></span><span class="pcoded-mtext">Produits</span></a>
+					</li>
+					<li *ngIf="userRole === 'admin' || userRole === 'financial'" class="nav-item pcoded-hasmenu">
+						<a routerLink="/service" class="nav-link"><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Services</span></a>
+					</li>
+					<!-- <li *ngIf="userRole === 'admin' || userRole === 'financial' " class="nav-item pcoded-hasmenu" >
+						<a routerLink="/tariffications" class="nav-link"><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Tariffications</span></a>
+					</li> -->
+					<li *ngIf="userRole === 'admin' || userRole === 'financial' " class="nav-item pcoded-hasmenu">
+						<a routerLink="/category" class="nav-link"><span class="pcoded-micon"><i class='bx bx-calendar-plus'></i></span><span class="pcoded-mtext">Catégories</span></a>
+					</li>
+
+
+					<li *ngIf="userRole === 'admin' " class="nav-item pcoded-menu-caption">
+						<label>Utilisateurs</label>
+					</li>
+					<li *ngIf="userRole === 'admin'" class="nav-item pcoded-hasmenu">
+						<a routerLink="/register-user" class="nav-link"><span class="pcoded-micon"><i class='bx bx-user-plus'></i></span><span class="pcoded-mtext">utilisateurs</span></a>
+					</li>
+					<li *ngIf="userRole === 'admin' || userRole === 'financial' " class="nav-item pcoded-menu-caption">
+						<label>Toutes / Factures</label>
+					</li>
+					<li *ngIf="userRole === 'admin' || userRole === 'financial' " class="nav-item pcoded-hasmenu">
+						<a routerLink="/bills" class="nav-link"><span class="pcoded-micon"><i class='bx bx-user-plus'></i></span><span class="pcoded-mtext">Facture</span></a>
+					</li>
+					<li *ngIf="userRole === 'admin' || userRole === 'financial'" class="nav-item pcoded-menu-caption" >
+						<label>Entrepot</label>
+					</li>
+					<!-- <li *ngIf="userRole === 'admin' || userRole === 'financial'" class="nav-item pcoded-hasmenu" (click)="stillWorkingOn()">
+						<a  class="nav-link"><span class="pcoded-micon"><i class='bx bx-user-plus'></i></span><span class="pcoded-mtext">Tous les Entrepot</span></a>
+					</li> -->
+					<li *ngIf="userRole === 'admin'" class="nav-item pcoded-hasmenu" >
+						<a routerLink="/logs"  class="nav-link"><span class="pcoded-micon"><i class='bx bx-user-plus'></i></span><span class="pcoded-mtext">Logs</span></a>
+					</li>
+
+
+
+				</ul>
+
+			</div>
+		</div>

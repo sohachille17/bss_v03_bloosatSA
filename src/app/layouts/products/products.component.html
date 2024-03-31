@@ -1,0 +1,251 @@
+<div class="pcoded-wrapper">
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">Tous les Produits</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+
+
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-header move">
+                                    <button (click)="state()"  type="button" class="btn btn-success"  data-toggle="modal" data-target="#registerModel"> <i style="font-size: 25px;" class='bx bx-plus-medical' ></i> </button>
+                                    <button  type="button" class="btn btn-primary"  data-toggle="modal" data-target=".bd-example-modal-lg" > <i style="font-size: 25px;" class='bx bxs-file-plus'></i> </button>
+                                    <button  type="button" class="btn btn-warning"  data-toggle="modal" data-target=".bd-example-modal-lg" > <i style="font-size: 25px;" class='bx bxs-file-pdf'></i> </button>
+
+
+
+                                    <div class="main-search open">
+                                        <div class="input-group">
+                                            <input type="text" id="m-search" class="form-control" placeholder="Rechercher un produit . . ." [(ngModel)]="searchTextL">
+
+                                            <span class="input-group-append search-btn btn btn-primary">
+                                                <i style="color: white;" class="feather icon-search input-group-text"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body table-border-style">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <!-- <th>#</th> -->
+                                                    <th>Nom du Produits</th>
+                                                    <th>Prix du Produits</th>
+                                                    <th>Code du Produits</th>
+                                                    <th>Category du Produits</th>
+                                                    <!-- <th>Product Decription</th> -->
+                                                    <th>Date d'enregistrement</th>
+
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <div *ngIf="productData.length  < 1 spinner">
+                                                    <app-spinner></app-spinner>
+                                                </div>
+                                                <tr *ngFor="let products of productData   | search: searchTextL  | paginate: { itemsPerPage: 10, currentPage: page, totalItems:totalLength }">
+                                                    <!-- <td>{{products.id}}</td> -->
+                                                    <td>{{products.capacity}}</td>
+                                                    <td>{{products.amount | currency:'XOF'}}</td>
+                                                    <td>{{products.code}}</td>
+                                                    <td>{{products.category_name}}</td>
+                                                    <!-- <td>{{products.description}}</td> -->
+                                                    <td>{{products.created_at | date:'short'}}</td>
+
+
+                                                    <td>
+                                                        <div class="btn-group mb-2 mr-2">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item" data-toggle="modal" data-target="#registerModel" (click)="onEditProduct(products.id)">modifier</a>
+                                                                <a *ngIf="userRole === 'admin'" class="dropdown-item delete-drop" (click)="onDeleteProducts(products.id)">supprimer</a>
+                                                            </div>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="pagination">
+                            <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                        </div>
+
+
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- customer model form START -->
+
+    <!-- Large modal -->
+
+
+
+
+
+    <!-- Large modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Register User Form-->
+  <!-- Modal -->
+  <div class="modal fade" id="registerModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+<form [formGroup]="productForm" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModelLabel" *ngIf="onEditMode === true">Modifier Produits</h5>
+          <h5 class="modal-title" id="registerModelLabel" *ngIf="onEditMode === false">Ajouter Produits</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="form-group">
+
+                <input
+                type="text"
+                class="form-control"
+                formControlName="capacity"
+                id="exampleInputPassword1"
+                placeholder="product Name"
+                [class.is-invalid]="capacity?.touched && capacity?.invalid">
+            </div>
+            <div class="validation-error" *ngIf="capacity?.touched && capacity?.invalid">
+                <div *ngIf="capacity?.touched">sorry product name is required</div>
+
+
+
+            </div>
+            <div class="form-group">
+
+                <input
+                type="email"
+                class="form-control"
+                id="exampleInputPassword1"
+                formControlName="amount"
+                placeholder="Product Amount"
+                [class.is-invalid]="amount?.touched && amount?.invalid">
+
+            </div>
+            <div class="validation-error" *ngIf="amount?.touched && amount?.invalid">
+                <div *ngIf="amount?.touched">sorry product amount is required</div>
+            </div>
+            <div class="form-group">
+
+                <input
+                type="text"
+                 class="form-control"
+                 id="exampleInputPassword1"
+                 formControlName="code"
+                 placeholder="Product Code"
+                 [class.is-invalid]="code?.touched && code?.invalid">
+            </div>
+            <div class="validation-error" *ngIf="code?.touched && code?.invalid">
+                <div *ngIf="code?.touched">sorry product code is required</div>
+            </div>
+            <div class="form-group">
+
+               <textarea
+               class="form-control"
+                id="exampleInputPassword1"
+                cols="30" rows="10"
+                formControlName="description"
+                 placeholder="product Description">
+                </textarea>
+                <div class="validation-error" *ngIf="description?.touched && description?.invalid">
+                    <div *ngIf="description?.touched">sorry product description is required</div>
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label for="exampleFormControlSelect1">Category</label>
+                <select
+                 class="form-control"
+                 id="exampleFormControlSelect1"
+                 formControlName="category_name"
+                 [class.is-invalid]="category_name?.touched && category_name?.invalid"
+
+                 >
+
+
+                 <option >--SELECT--</option>
+                    <option *ngFor="let categoryOption of category" >{{categoryOption.categoryName}}</option>
+
+                </select>
+                <div class="validation-error" *ngIf="category_name?.touched && category_name?.invalid">
+                    <div *ngIf="category_name?.touched">sorry category</div>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button *ngIf="onEditMode === true" type="button" class="btn btn-success" (click)="onSubmitProductForm()" [disabled]="productForm.invalid"><i class='bx bx-plus-medical'></i>Modifier</button>
+          <button *ngIf="onEditMode === false" type="button" class="btn btn-primary" (click)="onSubmitProductForm()" [disabled]="productForm.invalid"><i class='bx bx-plus-medical'></i>Ajouter</button>
+
+        </div>
+
+      </div>
+    </form>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

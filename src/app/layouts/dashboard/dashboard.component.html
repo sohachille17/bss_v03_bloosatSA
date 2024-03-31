@@ -1,0 +1,172 @@
+
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h5>Tableau de board</h5>
+                                        </div>
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                                            <li class="breadcrumb-item"><a href="#!">BSS Menu Pricipale</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+
+                            <!-- product profit start -->
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card prod-p-card bg-c-red">
+                                    <div class="card-body">
+                                        <div class="row align-items-center m-b-25">
+                                            <div class="col" *ngIf="totalCustomer">
+                                                <h6 class="m-b-5 text-white">Tous les client</h6>
+                                                <h3 class="m-b-0 text-white">{{totalCustomer.count}}</h3>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-user-lock text-c-red"></i>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card prod-p-card bg-c-blue">
+                                    <div class="card-body">
+                                        <div class="row align-items-center m-b-25">
+                                            <div class="col">
+                                                <h6 class="m-b-5 text-white">Tous les Services</h6>
+                                                <h3 class="m-b-0 text-white">{{serviceCounter}}</h3>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-concierge-bell text-c-blue"></i>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card prod-p-card bg-c-green">
+                                    <div class="card-body">
+                                        <div class="row align-items-center m-b-25">
+                                            <div class="col">
+                                                <h6 class="m-b-5 text-white">Tous les Produits</h6>
+                                                <h3 class="m-b-0 text-white">{{productCounter}}</h3>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-satellite text-c-green"></i>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card prod-p-card bg-c-yellow">
+                                    <div class="card-body">
+                                        <div class="row align-items-center m-b-25">
+                                            <div class="col">
+                                                <h6 class="m-b-5 text-white">Tous les Utilisateurs</h6>
+                                                <h3 class="m-b-0 text-white">{{userCounter - 2}}</h3>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-users text-c-yellow"></i>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div *ngIf="loading_ms" class="alert alert-primary" role="alert">
+                          <h4 class="alert-heading" style="color: blue; font: bold;">Hello, {{userName}}  </h4>
+                          <p>BSS V3.7.0 bientot disponible</p>
+                          <p>Nouveauté 😚😊😎🕳 "FAST INTERNET SPEED FOR ALL AFRICA +++ GOOD MANAGEMENT" &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -> <span style="color: blue; font-weight: bold;"> (( CLIENTS GRAND COMPTES))</span> </p>
+                          <hr>
+                          <!-- <p class="mb-0"> Client Grand compte   bientôt < Loading...></p> -->
+                          <div class="custom-loader"></div>
+                        </div>
+                        <div class="row" *ngIf="statusWork">
+                          <!-- product profit start -->
+                            <div *ngIf="statusWork" class="col-xl-3 col-md-6">
+                              <div class="card prod-p-card bg-c-test">
+                                  <div class="card-body">
+                                      <div class="row align-items-center m-b-25">
+                                          <div class="col" *ngIf="grandCount" >
+                                              <h6 class="m-b-5 text-white">Grand Client</h6>
+                                              <h3 class="m-b-0 text-white">{{grandCount.count}}</h3>
+                                          </div>
+                                          <div class="col-auto">
+                                              <!-- <i class="fas fa-user-lock text-c-red"></i> -->
+                                              <i class="fas fa-user-clock text-p-test"></i>
+
+                                          </div>
+                                      </div>
+
+                                  </div>
+                              </div>
+                          </div>
+                            <div *ngIf="statusWork" class="col-xl-3 col-md-6">
+                              <div class="card prod-p-card bg-c-fac">
+                                  <div class="card-body">
+                                      <div class="row align-items-center m-b-25">
+                                          <div class="col" >
+                                              <h6 class="m-b-5 text-white">facture grand client</h6>
+                                              <h3 class="m-b-0 text-white">{{0}}</h3>
+                                          </div>
+                                          <div class="col-auto">
+                                              <!-- <i class="fas fa-user-lock text-c-red"></i> -->
+                                              <i class="fas fa-user-clock text-i"></i>
+
+                                          </div>
+                                      </div>
+
+                                  </div>
+                              </div>
+                          </div>
+
+                        </div>
+                        <div class="col-md-6 col-xl-4">
+                          <div class="card user-card">
+                              <div class="card-header">
+                                  <h5>Profile</h5>
+                              </div>
+                              <div class="card-body  text-center">
+                                  <div class="usre-image">
+                                      <img [src]="profileURL" class="img-radius wid-100 m-auto" alt="User-Profile-Image">
+                                  </div>
+                                  <h6 class="f-w-600 m-t-25 m-b-10">{{userName}}</h6>
+                                  <h6 class="f-w-600 m-t-25 m-b-10" style="color: blue; font-weight: bold;">{{userRole}}</h6>
+                                  <p>{{email}}</p>
+                                  <hr>
+
+
+                              </div>
+                          </div>
+                      </div>
+
+
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

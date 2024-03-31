@@ -1,0 +1,448 @@
+<div class="pcoded-wrapper">
+  <div class="pcoded-content">
+      <div class="pcoded-inner-content">
+          <div class="main-body">
+              <div class="page-wrapper">
+                  <!-- [ breadcrumb ] start -->
+                  <div class="page-header">
+                      <div class="page-block">
+                          <div class="row align-items-center">
+                              <div class="col-md-12">
+                                  <div class="page-header-title">
+
+                                      <h5 class="m-b-10">BSS SOUSCRIPTION GRAND CLIENT</h5>
+                                  </div>
+                                  <ul class="breadcrumb">
+                                      <li class="breadcrumb-item"><a href="index.html"><i class="fab fa-osi"></i></a></li>
+                                      <li class="breadcrumb-item"><a href="#!">GRAND COMPTE</a></li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- [ breadcrumb ] end -->
+                  <!-- [ Main Content ] start -->
+                  <div class="row">
+                      <!-- Form  Submit here-->
+
+                      <!-- [ form-element ] start -->
+                  <div class="col-sm-12">
+
+                          <div class="card">
+                              <div class="card-header oss_status" *ngIf="oss__KAF">
+                                  <span class="badge badge-pill badge-success"> OSS ACTIVATION :{{oss__KAF.service_activation_date | date:'short'}}</span>
+                                  <span *ngIf="oss__KAF.subscription_status " class="badge badge-pill badge-{{OSS_S[oss__KAF.subscription_status].status}}">OSS SUBSCRIPTION  : {{OSS_S[oss__KAF.subscription_status].label}}</span>
+
+
+                              </div>
+                              <div class="card-body">
+
+                              <div class="marc" >
+                                      <div class="sub-head">
+                                          <h5  style="color: blue;">[Souscription de :{{customerName}}]</h5>
+                                          <h5 style="color: blue;"><i class="fas fa-bold"></i>loosat.</h5>
+                                      </div>
+
+
+
+
+
+                                  <hr>
+                                  <!-- form soubscription START -->
+                              <form [formGroup]="souscriptionForm">
+                                  <div class="row">
+                                      <div class="col-md-6">
+
+
+                                              <div class="form-group ">
+                                                  <label  class="form-label">Facture :</label>
+                                                  <div class="col-sm-9">
+                                                      <select
+                                                      formControlName="billReference"
+                                                      class="form-control"
+
+                                                      [class.is-invalid]="billReference?.touched && billReference?.invalid">
+                                                      <option value="">--SLECT--</option>
+
+                                                       <option *ngFor="let billRef of billRef" [value]="billRef.billNumber">{{billRef.billNumber}}</option>
+                                                      </select>
+
+                                                      <div class="validation-error" *ngIf="billReference?.touched && billReference?.invalid">
+                                                          <div *ngIf="billReference?.invalid">Bill REF - is required</div>
+                                                      </div>
+
+                                                  </div>
+                                              </div>
+                                              <!-- <div  class="form-group displaying" >
+                                                  <input type="text" formControlName="id">
+                                              </div> -->
+
+                                              <div class="form-group ">
+                                                <label  class="form-label">Service type :</label>
+                                                <div class="col-sm-9">
+                                                    <select
+
+                                                    formControlName="serviceType"
+                                                    class="form-control"
+                                                    [class.is-invalid]="serviceType?.touched && serviceType?.invalid "
+                                                    >
+                                                        <option value="">Type services </option>
+                                                        <option>Bande Ka</option>
+                                                        <option>Bande Ku</option>
+                                                        <option>Bande C</option>
+                                                    </select>
+
+                                                    <div class="validation-error" *ngIf="serviceType?.touched && serviceType?.invalid">
+                                                        <div *ngIf="serviceType?.invalid">Please select a service Type</div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+                                      </div>
+                                      <div class="col-md-6">
+
+                                          <!--Starting date-->
+
+                                          <div class="form-group">
+
+                                              <div class="col-sm-9">
+                                                  <label>Date debut</label>
+                                                  <input type="date"
+                                                  (change)="onGetDate()"
+                                                  class="form-control"
+                                                  formControlName="startingDate"
+                                                  [class.is-invalid]="startingDate?.touched &&  startingDate?.invalid">
+
+
+
+
+                                                  <div class="validation-error" *ngIf="startingDate?.touched && startingDate?.invalid">
+                                                      <div *ngIf="startingDate?.invalid">Please select a correct starting date</div>
+                                                 </div>
+
+                                              </div>
+
+                                          </div>
+
+
+
+                                           <!--Starting date-->
+
+
+
+
+                                              <!--Ending date-->
+
+                                              <div class="form-group ">
+
+                                                  <div class="col-sm-9">
+                                                      <label >Date fin</label>
+                                                      <input type="date"
+                                                      class="form-control"
+                                                      formControlName="endingData"
+                                                      [class.is-invalid]="endingData?.touched && endingData?.invalid">
+
+
+                                                      <div class="validation-error" *ngIf="endingData?.touched && endingData?.invalid">
+                                                          <div *ngIf="endingData?.invalid">Select an ending date</div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                                 <!--Ending date-->
+
+
+                                      </div>
+                                  </div>
+
+
+                                  <!-- SITE DETAILS -->
+
+
+                                  <div class="card">
+
+
+                                    <div class="card-body">
+                                        <h5 style="color: blue; font-weight: bold;">{{"AJOUTER LES SITES DE"}} &nbsp;  &nbsp;  &nbsp;[{{customerName}}]</h5>
+
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+
+                                            <div formArrayName="sites_item">
+                                                <div class="form-group flex"  *ngFor="let items of ivProduct.controls;let i=index" [formGroupName]="i">
+
+                                                        <div  class="col-sm-3"><a class="num">{{i+1}} :</a>
+                                                         <label for="exampleFormControlTextarea1">Site du Client</label>
+                                                         <select (change)="onChangeSite(i)" formControlName="siteId" class="form-control" id="exampleFormControlSelect1" >
+                                                            <option value="">--SELECT--OPTION</option>
+                                                             <option [value]="site.id" *ngFor="let site of site_data; let int = index">{{int + 1}}-{{site.name}}</option>
+
+
+
+                                                         </select>
+                                                        </div>
+
+
+
+
+
+
+
+
+                                                        <div style="display: none;"  class="col-sm-2 non">
+                                                            <label >ID DU SITE :</label>
+                                                            <input type="text"
+
+                                                             formControlName="siteName"
+                                                             class="form-control qty"
+                                                             >
+
+
+                                                        </div>
+                                                        <div class="col-sm-2 non">
+                                                            <label >TYPE :</label>
+                                                            <select class="form-control"  formControlName="type">
+                                                              <option value="">-SELECT-</option>
+                                                              <option value="KAF">KAF</option>
+                                                              <option value="IWAY">IWAY</option>
+                                                              <option value="BLOOSTAR">BLOOSTAR</option>
+                                                            </select>
+
+
+                                                        </div>
+
+                                                        <div class="col-sm-2">
+                                                            <label >POPULATION :</label>
+                                                            <input type="text"  formControlName="population"  class="form-control qty" >
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label >Serial Number :</label>
+                                                            <input formControlName="serialNumber" type="text"   class="form-control qty" >
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <label for="exampleFormControlTextarea1">SERVER ID</label>
+                                                            <input type="text"  formControlName="serverId"  class="form-control qty" >
+
+                                                        </div>
+
+                                                        <div class="col-sm-1">
+                                                            <label for="exampleFormControlTextarea1">Actions :</label>
+                                                           <button (click)="onRemoveProduct(i)"  type="button" class="btn btn-danger" ><i style="font-size: 20px;" class='bx bxs-trash'></i></button>
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                </div>
+                                                    <div class="form-group">
+                                                        <button (click)="addProducts()"  type="button" class="btn btn-primary"><i class='bx bx-plus-medical'></i></button>
+                                                    </div>
+
+
+
+
+
+
+
+
+
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <button *ngIf="editMode === false" type="submit" class="btn btn-primary" (click)="onSubmitSouscriptionKAF()"><i class="fas fa-plus-circle"></i>Enregistrer</button>
+                                <!-- <button *ngIf="editMode === true" type="submit" class="btn btn-primary"  (click)="onSubmitSouscriptionKAF()"><i class="fas fa-plus-circle"></i>Modifier</button> -->
+                                <button type="button" class="btn btn-danger" routerLink="/big-customers"><i class="fas fa-arrow-left"></i> Retour</button>
+                                  <!-- SITE DETAILS -->
+                              </form>
+                                  <!-- form soubscription END -->
+
+
+                              </div>
+                          </div>
+
+
+
+
+                          <!-- Details card for billing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      </div>
+
+                        <!-- Form  Submit here-->
+
+
+
+
+                      <!-- [ form-element ] end -->
+                      <!-- [ Main Content ] end -->
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+
+
+
+  <!-- current subscription status START -->
+
+  <div class="row">
+
+
+      <div class="col-xl-12">
+
+          <div class="card" >
+
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-primary btn-block text-left" type="button" aria-expanded="true">
+                      <span class="sous-item"> Bill Reference</span>
+                      <span class="sous-item"> Starting Date</span>
+                      <span class="sous-item"> Ending Date</span>
+                      <span class="sous-item"> Payment Status</span>
+                      <span class="sous-item"> Status</span>
+                      <span class="sous-item"> Created By</span>
+                      <span class="sous-item"> Created at</span>
+                      <span class="sous-item"> Action</span>
+
+                    </button>
+
+                  </h2>
+                </div>
+
+              </div>
+              <div class="container">
+              <div class="card" *ngFor="let bigSubsData of bigSubscriptionData">
+                <div  [ngClass]="{
+
+                  'b__n': bigSubsData.subscriptionStatus == 'ongoing'
+
+                  }" class="card-header" id="headingTwo">
+                  <h2 class="mb-0">
+                    <button (click)="onGetiSiteID(bigSubsData.id)" class="btn btn-link  btn-block text-left tt"  [attr.data-target]="'#' + appen + bigSubsData.id" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <span class="sous-item_">{{bigSubsData.billReference}}</span>
+                      <span class="sous-item_"> {{bigSubsData.startingDate}}</span>
+                      <span class="sous-item_"> {{bigSubsData.endingDate}}</span>
+                      <span class="sous-item_"> <span class="badge badge-pill badge-{{STATUS__CHANE[bigSubsData.paymentStatus].status}}">{{STATUS__CHANE[bigSubsData.paymentStatus].label}}</span>  </span>
+
+                      <span class="sous-item_"> <span class="badge badge-pill badge-{{ON_BIG_STATUS[bigSubsData.subscriptionStatus].status}}">{{ON_BIG_STATUS[bigSubsData.subscriptionStatus].label}} </span> </span>
+                      <span class="sous-item_ rgx_name"> {{bigSubsData.registratorName}}</span>
+                      <span class="sous-item_"> {{bigSubsData.created_at | date: 'short'}}</span>
+                      <span class="sous-item_">
+                        <div class="btn-group mb-2 mr-2">
+                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                          <div class="dropdown-menu">
+                            <a  class="dropdown-item"  (click)="onPayment()"><i class="fas fa-money-check-alt"></i>payer</a>
+                          </div>
+                      </div>
+
+                      </span>
+                    </button>
+                  </h2>
+                </div>
+                <div id="{{appen + bigSubsData.id}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                  <div class="card-body">
+
+                    <table class="table table-striped" >
+                      <thead>
+                        <tr>
+                          <th scope="col">Site Name</th>
+                          <th scope="col">SubscriptionId</th>
+                          <th scope="col">Population</th>
+                          <th scope="col">Server ID</th>
+                          <th scope="col">SerialNumber</th>
+
+                          <th scope="col">OSS STATUS</th>
+
+                          <th scope="col">Type</th>
+                          <th>Created at</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="(siteData | async) as sites">
+                        <tr *ngFor="let site of sites">
+                          <td scope="row">{{site.siteName}}</td>
+                          <td scope="row">{{site.subscriptionId}}</td>
+                          <td scope="row">{{site.population}}</td>
+                          <td scope="row">{{site.server_id}}</td>
+                          <td scope="row">{{site.serialNumber}}</td>
+
+                          <td *ngIf="site.oss_status else not_found " scope="row"><span class="badge badge-pill badge-{{OSS_S[site.oss_status.subscription_status].status}}">{{OSS_S[site.oss_status.subscription_status].label}} </span></td>
+                          <td scope="row">{{site.type}}</td>
+                          <td scope="row">{{site.created_at | date:'short'}}</td>
+
+                        </tr>
+
+                        <!-- <div class="spinner">
+                          <app-spinner-two></app-spinner-two>
+                        </div> -->
+                        <app-spinner-two></app-spinner-two>
+                      </tbody>
+
+                    </table>
+                  </div>
+
+                  <ng-template #not_found>
+                    <td scope="row"><span class="badge badge-pill badge-secondary">NULL</span></td>
+                  </ng-template>
+                </div>
+
+              </div>
+              </div>
+              <div *ngIf="bigSubscriptionData.length < 1">
+               <app-spinner></app-spinner>
+              </div>
+
+            </div>
+
+          </div>
+
+      </div>
+  </div>
+  <!-- current subscription status END -->
+
+
+
+
+
+</div>
+

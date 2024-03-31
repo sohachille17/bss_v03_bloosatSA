@@ -1,0 +1,632 @@
+<div class="pcoded-wrapper">
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">List des clients</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+
+
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-header">
+                                  <div class="ts" style="display: flex;">
+                                    <button  type="button" class="btn btn-success"  data-toggle="modal" data-target=".bd-example-modal-lg" (click)="onChange()"> <i style="font-size: 25px;" class='bx bx-message-square-add'></i> </button>
+                                    <button  type="button" class="btn btn-primary" (click)="onExportToExcel()" ><i class="fas fa-file-excel"></i> </button>
+                                    <button  type="button" class="btn btn-warning"  > <i style="font-size: 25px;" class='bx bxs-file-pdf'></i> </button>
+
+                                    <div class="main-search open">
+                                      <div class="input-group">
+                                          <input type="text" id="m-search" class="form-control" placeholder="Rechercher un produit . . ." [(ngModel)]="searchTextL">
+
+                                          <span class="input-group-append search-btn btn btn-primary">
+                                              <i style="color: white;" class="feather icon-search input-group-text"></i>
+                                          </span>
+                                      </div>
+                                  </div>
+
+                                  </div>
+
+
+                                  <div class="suspention__btn">
+
+                                    <!-- <h4 style="color: blue; font-weight: bold;">BSS SOUSCRIPTION</h4>
+                                     -->
+                                     <img class="imgs" src="{{img}}" alt="">
+
+
+
+                                  </div>
+
+
+
+
+
+                                </div>
+                                <div class="card-body table-border-style">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" >
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>status</th>
+                                                    <th>Nom compte</th>
+                                                    <th>Localisation</th>
+                                                    <th>Contacts</th>
+                                                    <th>type</th>
+                                                    <th>Email</th>
+                                                    <th>Enregistre le</th>
+                                                    <th>Etat</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <div *ngIf="customersData.length  < 1 spinner">
+                                                    <app-spinner></app-spinner>
+                                                </div>
+                                                    <tr *ngFor="let customer of customersData | search: searchTextL  | paginate: { itemsPerPage: 20, currentPage: page, totalItems:totalLength } ; let i = index">
+                                                        <td>{{i + 1}}</td>
+                                                        <td><input [checked]="customer.status"  type="checkbox"></td>
+
+                                                        <td>{{customer.username}}</td>
+                                                        <td>{{customer.country}}</td>
+                                                        <td>{{customer.telephone1}}</td>
+                                                        <td>{{customer.type}}</td>
+                                                        <td>{{customer.email}}</td>
+                                                        <td>{{customer.created_at | date:'short'}}</td>
+                                                        <td *ngIf="customer.status === 1; then sucess else error">
+
+                                                        </td>
+                                                        <td>
+                                                            <div class="btn-group mb-2 mr-2">
+                                                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                                                                <div class="dropdown-menu drop-test">
+                                                                  <a  class="dropdown-item unique_" data-toggle="modal"  data-target=".bd-example-modal-lg" (click)="onNavigate(customer.id)" ><i class="fas fa-eye"></i>Toutes les factures</a>
+                                                                    <a *ngIf="userRole === 'admin' || userRole === 'financial' " class="dropdown-item" data-toggle="modal" data-target="#exampleModal"  ><i class="fas fa-info-circle new-i"></i>Details</a>
+                                                                    <a *ngIf="userRole === 'admin' || userRole === 'financial' "  class="dropdown-item unique_" data-toggle="modal"  data-target=".bd-example-modal-lg" (click)="onUpdateCustomers(customer.id)"><i class="fas fa-edit new-i"></i>editer les information</a>
+                                                                    <a *ngIf="userRole === 'admin' || userRole === 'financial' " class="dropdown-item unique_" data-toggle="modal"  data-target=".bd-example-modal-lg" (click)="onBillSelect(customer.id)"><i class="fas fa-check new-i"></i>Souscription KAF</a>
+                                                                    <a *ngIf="userRole === 'admin' || userRole === 'financial' "  class="dropdown-item unique_"  data-toggle="modal"  data-target=".bd-example-modal-lg"  (click)="onIwaySubscription(customer.id)"><i class="fas fa-check new-i"></i>Souscription iWay</a>
+                                                                    <a *ngIf="userRole === 'admin' || userRole === 'financial' "  class="dropdown-item unique_" data-toggle="modal"  data-target=".bd-example-modal-lg" (click)="onPaymentMove(customer.id)"><i class="fas fa-money-bill new-i"></i>Paiement</a>
+                                                                    <a *ngIf="userRole === 'admin' || userRole === 'financial' "  class="dropdown-item unique_" data-toggle="modal"  data-target=".bd-example-modal-lg" (click)="onBlooStar(customer.id)"><i class="far fa-star"></i>Bloo Star</a>
+
+
+                                                                    <!-- <a  class="dropdown-item unique_" data-toggle="modal"  data-target=".bd-example-modal-lg" (click)="onBlooStar(customer.id)" ><i class="fas fa-eye"></i>Bloo Star</a> -->
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+
+                                                        <ng-template #sucess>
+                                                            <td>
+                                                                <span class="badge badge-pill badge-{{buttonValueTrue}}">active</span>
+                                                            </td>
+
+                                                        </ng-template>
+                                                        <ng-template #error>
+                                                            <td>
+                                                                <span class="badge badge-pill badge-{{buttonValueFalse}}">inactive</span>
+                                                            </td>
+
+                                                        </ng-template>
+                                                    </tr>
+
+
+
+                                                    <tr >
+                                                        <td></td>
+                                                        <td></td>
+
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+
+                                                        </td>
+                                                        <td>
+                                                            <div class="btn-group mb-2 mr-2">
+                                                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+
+                                                            </div>
+                                                        </td>
+
+
+                                                        <ng-template #sucess>
+                                                            <td>
+                                                                <span class="badge badge-pill badge-{{buttonValueTrue}}">active</span>
+                                                            </td>
+
+                                                        </ng-template>
+                                                        <ng-template #error>
+                                                            <td>
+                                                                <span class="badge badge-pill badge-{{buttonValueFalse}}">inactive</span>
+                                                            </td>
+
+                                                        </ng-template>
+                                                    </tr>
+
+
+
+
+
+
+
+                                            </tbody>
+
+
+
+
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="pagination">
+                                <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- customer model form START -->
+
+    <!-- Large modal -->
+
+
+
+
+
+    <!-- Large modal -->
+<form  [formGroup]="customerForm">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" *ngIf="edidtMode">Edit Customers</h5>
+            <h5 class="modal-title" id="exampleModalLabel" *ngIf="edidtMode === false">Add Customers</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+
+
+
+
+            <div class="row">
+                <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Nom du compte</label>
+                            <input
+                            type="email"
+                            class="form-control"
+                            id="exampleInputEmail1"
+                            formControlName="username"
+                            aria-describedby="emailHelp"
+                            placeholder="Entez le nom du compte"
+                            [class.is-invalid]="username?.touched && username?.invalid"
+                            >
+
+                            <div class="validation-error" *ngIf="username?.touched && username?.invalid">
+                                <div *ngIf="username?.touched">Le nom est requis</div>
+                                <div *ngIf="username?.errors?.['minlength']">Le nom d'un compte dois avoir aumoins 10 characteres</div>
+
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Region</label>
+                            <input
+                            type="text"
+                            formControlName="region"
+                            class="form-control"
+                            placeholder="Entrez la regions"
+                            [class.is-invalid]="region?.touched && region?.invalid"
+
+
+                            >
+                            <div class="validation-error" *ngIf="region?.touched && region?.invalid">
+                                <div *ngIf="region?.touched">la regions du client est requis</div>
+
+
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Pays</label>
+                            <input
+                             type="text"
+                             formControlName="country"
+                             class="form-control"
+                             placeholder="Pays"
+                             id="exampleInputPassword1"
+                             [class.is-invalid]="country?.touched && country?.invalid"
+
+
+                             >
+
+                             <div class="validation-error" *ngIf="country?.touched && country?.invalid">
+                                <div *ngIf="country?.touched">Le pays est requis</div>
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">ville /village</label>
+                            <input
+                            type="text"
+                            formControlName="city_village"
+                            class="form-control"
+                            placeholder="Entrez la ville"
+                            id="exampleInputPassword1"
+                            [class.is-invalid]="city_village?.touched && city_village?.invalid"
+
+
+
+                             >
+                             <div class="validation-error" *ngIf="city_village?.touched && city_village?.invalid">
+                                <div *ngIf="city_village?.touched">La ville est requis</div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                          <label for="exampleInputEmail1">BLOO XXX</label>
+                          <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Bloosat SA."
+                          disabled>
+
+                        </div>
+
+
+                    <!-- </form> -->
+                </div>
+                <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Address Mail: ( 1 )</label>
+                            <input
+                            type="email"
+                            formControlName="userMaillAddrtess"
+                            class="form-control"
+
+                            placeholder="Entrez l'email"
+
+                            [class.is-invalid]="userMaillAddrtess?.touched && userMaillAddrtess?.invalid"
+                            >
+
+                            <div class="validation-error" *ngIf="userMaillAddrtess?.touched && userMaillAddrtess?.invalid">
+                                <div *ngIf="userMaillAddrtess?.errors?.['required']">addresse mail requis</div>
+                                <div *ngIf="userMaillAddrtess?.errors?.['pattern']">addresse mail est requis</div>
+                            </div>
+
+                        </div>
+                        <!-- Second Customer Email Address -->
+
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Address Mail: ( 2 )</label>
+                          <input
+                          type="email"
+                          formControlName="email_2"
+                          class="form-control"
+
+                          placeholder="Entrez l'email"
+
+                          [class.is-invalid]="email_2?.touched && email_2?.invalid"
+                          >
+
+                          <div class="validation-error" *ngIf="email_2?.touched && email_2?.invalid">
+                              <!-- <div *ngIf="userMaillAddrtess?.errors?.['required']">addresse mail requis</div> -->
+                              <div *ngIf="email_2?.errors?.['pattern']">l'addresse mail est incorrect desole!!</div>
+                          </div>
+
+                      </div>
+
+                        <!-- Second Customer Email Address -->
+
+
+                        <div class="form-group">
+                            <label >Telephone 1</label>
+                            <input
+                             type="text"
+                             formControlName="telephoneNumber1"
+                             class="form-control"
+                             placeholder="Enter telephone 2"
+
+                             [class.is-invalid]="telephoneNumber1?.touched && telephoneNumber1?.invalid"
+
+                            >
+
+                              <div class="validation-error" *ngIf="telephoneNumber1?.touched && telephoneNumber1?.invalid">
+                                <div *ngIf="telephoneNumber1?.touched">telephoneNumber1 is required</div>
+
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Telephone 2</label>
+                            <input
+                             type="text"
+                             formControlName="telephneNumber2"
+                             class="form-control"
+                             placeholder="Enter telephone 2"
+                            value=000000
+                             id="exampleInputPassword1"
+                             [class.is-invalid]="telephneNumber2?.touched && telephneNumber2?.invalid"
+
+                             >
+
+                             <div class="validation-error" *ngIf="telephneNumber2?.touched && telephneNumber2?.invalid">
+                                <div *ngIf="telephneNumber2?.touched">telephoneNumber2 is required</div>
+
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Type de client</label>
+                            <select
+                            class="form-control"
+                            formControlName="residential_type"
+                            id="exampleFormControlSelect1"
+                            [class.is-invalid]="residential_type?.touched && residential_type?.invalid"
+
+                            >
+
+                                <option>residential</option>
+                                <option>business</option>
+                            </select>
+
+
+                        </div>
+                        <div class="validation-error" *ngIf="residential_type?.touched && residential_type?.invalid">
+                            <div *ngIf="telephneNumber2?.touched">Type is required</div>
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+                </div>
+                <div class="col-lg-12">
+                    <div style="width: 100%;" class="form-group" >
+                        <label for="exampleFormControlSelect1">Status</label>
+                        <select
+                        class="form-control"
+                        formControlName="new_status"
+                        id="exampleFormControlSelect1"
+                        [class.is-invalid]="new_status?.touched && new_status?.invalid"
+
+                        >
+
+
+                            <option *ngFor="let status of arrayOfType">{{status.status}}</option>
+
+                        </select>
+
+                        <div class="validation-error" *ngIf="new_status?.touched && new_status?.invalid">
+                            <div *ngIf="new_status?.touched">Status is required</div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
+        </div>
+        <div class="modal-footer">
+            <div *ngIf=" customerForm.valid && isLooking === true">
+                <app-spinner></app-spinner>
+            </div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+          <button type="submit" class="btn btn-primary" (click)="onSubmitCustomers() " [disabled]="customerForm.invalid"><i class='bx bx-pencil'></i>{{editButton}}</button>
+
+
+        </div>
+
+      </div>
+  </div>
+</div>
+</form>
+
+
+
+
+
+
+
+<!-- Details fo customer -->
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Customers Detail Info</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body" *ngIf="singleForm">
+          <!-- <form [formGroup]="customerForm"> -->
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Nom du compte</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" value={{singleForm.username}} disabled >
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Region</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" value={{singleForm.region}} disabled >
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Pays</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" value={{singleForm.country}} disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">ville /village</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" value={{singleForm.city}} disabled >
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Address Mail ( 1 )</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" value={{singleForm.email}} disabled >
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Address Mail ( 2 )</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" value={{singleForm.email_2}} disabled >
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Telephone 1</label>
+                <input type="text" class="form-control" id="exampleInputPassword1"  value={{singleForm.telephone1}} disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Telephone 2</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" value="{{singleForm.telephone2}}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1"> Type</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" value="{{singleForm.type}}"disabled >
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Etat</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" value="{{singleForm.status}}" disabled>
+            </div>
+        <!-- </form> -->
+        </div>
+
+        <div class="modal-footer">
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Exports data customers to Excel -->
+
+  <table class="table table-striped" id="table-data"   style="display: none;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nom compte</th>
+            <th>situé/située</th>
+            <th>telephone 1</th>
+            <th>telephone 2</th>
+            <th>ville</th>
+            <th>type</th>
+            <th>Email</th>
+            <th>Enregistrer le</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <div *ngIf="customersData.length  < 1 spinner">
+            <app-spinner></app-spinner>
+        </div>
+            <tr *ngFor="let customer of customersData ; let i = index">
+                <td>{{i + 1}}</td>
+
+
+                <td>{{customer.username}}</td>
+                <td>{{customer.country}}</td>
+                <td>{{customer.telephone1}}</td>
+                <td>{{customer.telephone2}}</td>
+                <td>{{customer.city}}</td>
+
+                <!-- <td>{{customer.status}}</td> -->
+                <td>{{customer.type}}</td>
+                <td>{{customer.email}}</td>
+                <td>{{customer.created_at | date:'short'}}</td>
+
+
+
+
+            </tr>
+
+
+
+
+
+    </tbody>
+
+
+
+
+</table>
+
+
+
+

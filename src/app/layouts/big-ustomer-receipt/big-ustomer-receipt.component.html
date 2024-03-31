@@ -1,0 +1,212 @@
+<div class="spinner" *ngIf="invoiceData">
+
+</div>
+
+<ng-template #loading>
+  <app-spinner></app-spinner>
+</ng-template>
+<div *ngIf="invoiceData else loading">
+<div class="container" >
+
+
+  <div class="py-4" id="printBigCustomers_receipt">
+
+    <div class="px-14 py-6">
+
+      <table class="w-full border-collapse border-spacing-0">
+        <tbody>
+          <tr>
+            <td class="w-full align-top">
+              <div>
+                <img src={{logoUrl}} class="h-12" />
+              </div>
+            </td>
+
+            <td class="align-top">
+              <div class="text-sm">
+                <table class="border-collapse border-spacing-0">
+                  <tbody>
+                    <tr>
+                      <td class="border-r pr-4">
+                        <div>
+                          <p class="whitespace-nowrap text-slate-400 text-right">Date</p>
+                          <p class="whitespace-nowrap font-bold text-main text-right">{{ invoiceData.created_at | date: 'short'}}</p>
+                        </div>
+                      </td>
+                      <td class="pl-4">
+                        <div>
+                          <p class="whitespace-nowrap text-slate-400 text-right">Invoice #</p>
+                          <p class="whitespace-nowrap font-bold text-main text-right">{{invoiceData.billNumber}}</p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bg-slate-100 px-14 py-6 text-sm">
+      <table class="w-full border-collapse border-spacing-0">
+        <tbody>
+          <tr>
+            <td class="w-1/2 align-top">
+              <div class="text-sm text-neutral-600">
+                <p class="font-bold">Company Name: Bloosat SA</p>
+                <p>Address Number: BP 750 Yaounde </p>
+                <p>Email Address: info&#64;bloosat.com</p>
+                <p>Telephone: 243 598 890 / + 1 914 298 8749</p>
+                <p>Bloosat Cameroon</p>
+                <p style="color: blue; font-weight: bold;">{{'BLOOSAT SA'}}</p>
+              </div>
+            </td>
+            <td class="w-1/2 align-top text-right">
+              <div class="text-sm text-neutral-600">
+                <p class="font-bold">Customer Name:{{invoiceData.customers.username}}</p>
+                <p>Bill Number: {{invoiceData.billNumber}}</p>
+                <p>Bill Type{{invoiceData.type}}</p>
+                <p>Customer Email: {{invoiceData.customers.email}}/{{invoiceData.customers.email_2}}</p>
+                <p>Customer Address </p>
+                <p  style="color: blue; font-weight: bold;">{{invoiceData.customers.username}}</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="px-14 py-10 text-sm text-neutral-700">
+      <table class="w-full border-collapse border-spacing-0">
+        <thead>
+          <tr>
+            <td class="border-b-2 border-main pb-3 pl-3 font-bold text-main">#</td>
+            <td class="border-b-2 border-main pb-3 pl-3 font-bold text-main">Date</td>
+            <td class="border-b-2 border-main pb-3 pl-2 font-bold text-main">Designation </td>
+            <!-- <td class="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">Site Name</td> -->
+            <td class="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">Price</td>
+            <td class="border-b-2 border-main pb-3 pl-2 text-center font-bold text-main">Qty.</td>
+
+            <td class="border-b-2 border-main pb-3 pl-2 text-right font-bold text-main">Subtotal</td>
+
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor=" let items of itemsData">
+            <td class="border-b py-3 pl-3">00.</td>
+            <td class="border-b-2 pb-3 pl-3 font-bold text-main">{{items.created_at | date:'short'}}</td>
+            <td class="border-b py-3 pl-2" >{{items.siteName}}/{{items.name}}</td>
+            <td class="border-b py-3 pl-2 text-right">{{items.price | currency:'XOF'}}</td>
+            <td class="border-b py-3 pl-2 text-center">{{items.quantity}}</td>
+
+            <td class="border-b py-3 pl-2 text-right">{{items.total | currency:'XOF'}}</td>
+
+          </tr>
+
+          <tr>
+            <td colspan="7">
+              <table class="w-full border-collapse border-spacing-0">
+                <tbody>
+                  <tr>
+                    <td class="w-full"></td>
+                    <td>
+                      <table class="w-full border-collapse border-spacing-0">
+                        <tbody>
+                          <tr>
+                            <td class="border-b p-3">
+                              <div class="whitespace-nowrap text-slate-400">Net total:</div>
+                            </td>
+                            <td class="border-b p-3 text-right">
+                              <div class="whitespace-nowrap font-bold text-main">{{invoiceData.sub_total | currency:'XOF'}}</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="p-3">
+                              <div class="whitespace-nowrap text-slate-400">VAT total:</div>
+                            </td>
+                            <td class="p-3 text-right">
+                              <!-- invoiceData.tvaAmount -->
+                              <div class="whitespace-nowrap font-bold text-main">{{ invoiceData.tvaAmount }}</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="p-3">
+                              <div class="whitespace-nowrap text-slate-400">DA:</div>
+                            </td>
+                            <td class="p-3 text-right">
+                              <div class="whitespace-nowrap font-bold text-main">{{invoiceData.droit_daccises | currency:'XOF'}}</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="p-3">
+                              <div class="whitespace-nowrap text-slate-400">MONTANT TTC:</div>
+                            </td>
+                            <td class="p-3 text-right">
+                              <div class="whitespace-nowrap font-bold text-main">{{invoiceData.montant_ttc  | currency: 'XOF'}}</div>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="bg-main p-3">
+                              <div class="whitespace-nowrap font-bold text-white">Total:</div>
+                            </td>
+                            <td class="bg-main p-3 text-right">
+                              <div class="whitespace-nowrap font-bold text-white">{{invoiceData.total | currency: 'XOF'}}</div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="px-14 text-sm text-neutral-700">
+      <p class="text-main font-bold">PAYMENT DETAILS</p>
+      <p>SA au capital de {{50000000 | currency:'XOF'}}</p>
+      <p>RC : RCYAO/2016/B/703</p>
+      <p>NUI: M 071612552616 Y</p>
+      <!-- <p>Payment Reference: BRA-00335</p> -->
+    </div>
+
+    <div class="px-14 py-10 text-sm text-neutral-700">
+      <p class="text-main font-bold">Notes</p>
+      <p class="italic">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries
+        for previewing layouts and visual mockups.</p>
+
+
+      </div>
+
+    </div>
+
+
+
+</div>
+
+<!-- </div> -->
+
+<div class="btn-buttons">
+<button style="color: black;"
+[useExistingCss]="true"
+ class="btn btn-primary"
+ printSectionId="printBigCustomers_receipt"
+ ngxPrint>Imprimer </button>
+
+
+<a style="color: white;" class="btn btn-danger" (click)="onReturn()">Retour</a>
+</div>
+
+</div>
+
+
+
+
+

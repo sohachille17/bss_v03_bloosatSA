@@ -1,0 +1,530 @@
+<div class="pcoded-wrapper">
+  <div class="pcoded-content">
+      <div class="pcoded-inner-content">
+          <div class="main-body">
+              <div class="page-wrapper">
+                  <!-- [ breadcrumb ] start -->
+                  <div class="page-header">
+                      <div class="page-block">
+                          <div class="row align-items-center">
+                              <div class="col-md-12">
+                                  <div class="page-header-title">
+                                      <h5 class="m-b-10 clients-grand-compte"><i class="fas fa-fire-alt"></i>[ SITE : &nbsp; &nbsp;{{globalCustomerName}}. &nbsp;&nbsp;]</h5>
+                                  </div>
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- [ breadcrumb ] end -->
+                  <!-- [ Main Content ] start -->
+                  <div class="row">
+
+
+                      <div class="col-xl-12">
+                          <div class="card">
+                              <div class="card-header">
+
+                                  <div style="display: flex;">
+
+                                    <button (click)="onChangeMode()"   type="button" class="btn btn-success"  data-toggle="modal" data-target="#registerModel"> <i style="font-size: 25px;" class='bx bx-message-square-add' ></i> </button>
+
+                                    <div class="main-search open">
+                                       <div class="input-group">
+                                           <input type="text" id="m-search" class="form-control" placeholder="Rechercher un produit . . ." [(ngModel)]="searchTextL">
+
+                                           <span class="input-group-append search-btn btn btn-primary">
+                                               <i style="color: white;" class="feather icon-search input-group-text"></i>
+                                           </span>
+                                       </div>
+                                   </div>
+
+                                  </div>
+                                  <div>
+                                    <img class="logo" src="{{img}}" alt="bloosta-image">
+                                  </div>
+
+                              </div>
+                              <div class="card-body table-border-style">
+                                <form [formGroup]="bigCusBillForm">
+                                  <div class="form-group head__">
+                                    <div>
+                                      <label for="date">cree la facture </label>
+                                      <input
+                                      formControlName="billingDate"
+                                      id="date"
+                                      type="date"
+                                      class="form-control"
+                                      [class.is-invalid] ="billingDate?.touched && billingDate?.invalid">
+                                       <div  *ngIf="billingDate?.touched && billingDate?.invalid">
+                                         <h4 class="error-touched" >Sorry bill date is required!!</h4>
+                                       </div>
+                                    </div>
+                                    <button  type="submit" class="btn btn-success" (click)="createABill()" [disabled]="billingDate?.invalid"><i class="fas fa-plus-circle"></i> CREE FACTURE</button>
+                                    </div>
+                                </form>
+
+                                <div id="accordion">
+
+                                  <div class="card" *ngFor="let site of siteData | search: searchTextL ">
+                                    <div class="card-header" id="headingThree">
+                                      <h5 class="mb-0">
+
+                                        <div class="ng-head">
+                                          <!-- btn btn-light  collapsed btns -->
+                                          <!-- <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne"></button> -->
+                                          <button
+
+                                          [class]="site.status === 'active' ? 'btn-primary' : 'btn-light'"
+
+                                          [ngClass]="{
+                                            'btn':colorSwitch,
+                                            'collapsed': colorSwitch,
+                                            'btns': colorSwitch
+                                          }" (click)="onGetSiteIDBYToggller(site.id)"  [attr.data-target]="'#' + appen + site.id"  data-toggle="collapse" aria-expanded="false" aria-controls="collapseThree">
+                                            <span>{{site.name}}</span><span>({{site.status}})</span> <span>{{site.location}}</span>
+                                            </button>
+                                            <span>
+                                              <button class="btn btn-info"  (click)="onGetSiteID(site.id)" class="btn btn-success"  data-toggle="modal" data-target="#bundles"><i class="fas fa-pencil-alt"></i>ajouter</button>
+                                              <button *ngIf="site.status === 'active'" class="btn btn-danger" (click)="onRemove(site.id, site.status)" ><i class="fas fa-times"></i>desactiver</button>
+                                              <button *ngIf="site.status === 'inactive'" class="btn btn-primary" (click)="onRemove(site.id, site.status)" ><i class="fas fa-circle"></i>activer</button>
+                                              <button class="btn btn-light" data-toggle="modal" data-target="#registerModel" (click)="onEditeSite(site.id)" ><i class="fas fa-pencil-alt"></i>modifier</button>
+                                            </span>
+
+
+                                        </div>
+
+                                      </h5>
+                                    </div>
+                                    <div id="{{appen + site.id}}" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                      <div class="card-body">
+
+
+                                    <div class="table-responsive">
+
+                                      <table class="table table-Danger">
+                                          <thead>
+                                              <tr>
+
+                                                  <th>Product Name </th>
+                                                  <th>Price</th>
+
+                                                  <th>Quantity</th>
+                                                  <th>Registered By</th>
+
+                                                  <th style="color: blue; font-weight: bold;">Total</th>
+
+                                                  <th>Date registered</th>
+                                                  <th>Actions</th>
+                                              </tr>
+                                          </thead>
+                                          <!-- <tbody> -->
+                                          <tbody *ngIf="(bundleData | async) as bundleD">
+
+
+
+
+
+                                              <tr *ngFor="let bundle of bundleD ; let i = index">
+                                                <td>{{bundle.name}}</td>
+                                                <td>{{bundle.price | currency: 'XOF'}}</td>
+                                                <td>{{bundle.quantity}}</td>
+
+                                                <td>{{bundle.registratorName}}</td>
+                                                <td style="color: blue; font-weight: bold;">{{bundle.total | currency:'XOF'}}</td>
+                                                <td>{{bundle.created_at | date: 'short'}}</td>
+
+
+
+
+                                                <td>
+                                                    <div class="btn-group mb-2 mr-2">
+                                                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            <!-- <a class="dropdown-item" data-toggle="modal" data-target="#registerModel" routerLink="/forfaits" >Forfaits</a> -->
+                                                            <a class="dropdown-item" data-toggle="modal" data-target="#bundles" (click)="onEditeBundle(bundle.id)">Modifier</a>
+
+
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+
+
+
+
+
+
+
+
+
+
+                                            </tr>
+
+
+
+                                            <div class="loading" *ngIf="bundleD.length < 1">
+                                              <app-spinner></app-spinner>
+                                            </div>
+
+
+
+
+
+
+                                          </tbody>
+
+
+                                      </table>
+
+
+                                  </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+
+                              </div>
+
+
+                              <div class="spinner" *ngIf="siteData.length < 1">
+                                <app-spinner></app-spinner>
+                              </div>
+                          </div>
+
+
+                          <!-- DETAIL (Customer Site Calculations)  START-->
+
+                          <!-- Details card for billing -->
+
+
+                          <!-- DETAIL (Customer Site Calculations)  END-->
+
+
+
+
+
+
+
+
+
+                          <div class="segment">
+                            <button (click)="onBack()" class="btn btn-danger"><i class="fas fa-long-arrow-alt-left"></i>back</button>
+                          </div>
+
+
+                          <!-- <p>
+                            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                              Link with href
+                            </a>
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                              Button with data-target
+                            </button>
+                          </p>
+                          <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            </div>
+                          </div> -->
+
+                      </div>
+
+
+
+
+                  </div>
+                  <!-- [ Main Content ] end -->
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+  <!-- customer model form START -->
+
+  <!-- Large modal -->
+
+
+
+
+
+  <!-- Large modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Register User Form-->
+<!-- Modal -->
+<div class="modal fade" id="registerModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registerModelLabel" style="color: blue;">{{siteTitle}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  <form [formGroup]="siteForm" >
+      <div class="modal-body">
+
+        <div class="form-group">
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="site Location"
+            formControlName="siteLocation"
+            [class.is-invalid]="siteLocation?.touched && siteLocation?.invalid">
+
+            <div *ngIf="siteLocation?.touched && siteLocation?.invalid">
+              <h4 class="error-touched"> Sorry site location is required </h4>
+            </div>
+      </div>
+
+          <div class="form-group">
+
+              <input type="text"
+              class="form-control"
+              formControlName="siteName"
+              placeholder="Site Name"
+              [class.is-invalid]="siteName?.touched && siteName?.invalid"
+
+              >
+              <div *ngIf="siteName?.touched && siteName?.invalid">
+                <h4 class="error-touched"> Sorry site name is required!!</h4>
+              </div>
+
+
+          </div>
+
+          <div class="form-group">
+
+            <textarea
+            placeholder="Site Description"
+            class="form-control"
+            cols="30"
+            rows="10"
+            formControlName="siteDescription"
+            [class.is-invalid]="siteDescription?.touched && siteDescription?.invalid"
+            ></textarea>
+
+            <div *ngIf="siteDescription?.touched && siteDescription?.invalid">
+              <h4 class="error-touched">Sorry site description is required</h4>
+            </div>
+
+
+          </div>
+          <div class="form=group">
+            <input
+            type="number"
+            class="form-control"
+            placeholder="TVA..."
+
+            formControlName="tva"
+            [class.is-invalid]="tva?.touched && tva?.invalid"
+            >
+            <div *ngIf="tva?.touched && tva?.invalid">
+              <h4 class="error-touched">Sorry tva is required!!</h4>
+            </div>
+          </div>
+
+          <!-- <div class="form-group">
+
+              <textarea type="text"
+               class="form-control"
+               formControlName="password_confirmation"
+               cols="30"
+               rows="10"
+               placeholder="confirm password"
+
+               ></textarea>
+
+          </div> -->
+
+
+
+
+      </div>
+      <div class="modal-footer">
+
+        <div class="loading" *ngIf="isLoading">
+          <app-spinner></app-spinner>
+        </div>
+
+
+
+          <button type="button"
+          class="btn btn-secondary"
+           data-dismiss="modal"><i class="fas fa-sign-out-alt"></i>Close</button>
+         <button type="submit" [disabled]="siteForm.invalid"
+          class="btn btn-primary" (click)="onSaveSite()" ><i class="far fa-save"></i>{{onBtnStatus}}</button>
+
+      </div>
+  </form>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+
+
+
+<!--  CREATE NEW (BUNDLE) (FORFAIT START)-->
+
+
+<div class="modal fade" id="bundles" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registerModelLabel" style="color: blue;">{{onBundleTxtBtn}} Forfait</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  <form  [formGroup]="itemsForm" >
+          <br>
+
+
+            <div class="modal-body">
+
+
+              <div class="form-group">
+
+                <select
+                  type="text"
+                  class="form-control"
+                  placeholder="Name"
+                  formControlName="name"
+                  (change)="onProductgetByID()"
+                  [class.is-invalid]="name?.touched && name?.invalid"
+                >
+                <option value="">Select a product OR service</option>
+                <option *ngFor="let product_serv of product__service"  value="{{product_serv.id}}" >
+                  {{product_serv.name}}  - && - {{product_serv.type}}
+                </option>
+
+
+              </select>
+              <div *ngIf="name?.touched && name?.invalid">
+                <h4 class="error-touched"> Sorry provide valide name</h4>
+              </div>
+
+            </div>
+
+                <div class="form-group">
+
+                    <input type="number"
+                    class="form-control"
+                    formControlName="price"
+                    placeholder="Price"
+                    (change)="onCalculatePrice_quantity()"
+                    [class.is-invalid]="price?.touched && price?.invalid"
+                    >
+                  <div *ngIf="price?.touched && price?.invalid">
+                    <h4 class="error-touched">Sorry provide a price for this product</h4>
+                  </div>
+
+
+                </div>
+                <div class="form-group">
+
+                    <input type="number"
+                    class="form-control"
+                    formControlName="quantity"
+                    placeholder="Quantity"
+                    (change)="onCalculatePrice_quantity()"
+                    [class.is-invalid]="quantity?.touched && quantity?.invalid"
+                    >
+                  <div *ngIf="quantity?.touched && quantity?.invalid">
+                    <h4 class="error-touched">Sorry quantity should be provided to proceed</h4>
+                  </div>
+
+
+
+                </div>
+                <div class="form-group">
+
+                    <input type="number"
+                    class="form-control"
+                    placeholder="Total"
+                    formControlName="total"
+                    [class.is-invalid]="total?.touched && total?.invalid"
+
+                    >
+                  <div *ngIf="total?.touched && total?.invalid">
+                    <h4 class="error-touched" >Sorry provide total</h4>
+                  </div>
+                </div>
+                <div style="display: none;" class="form-group">
+
+                    <input type="text"
+                    class="form-control"
+                    placeholder="prod_id"
+                    formControlName="prod_id"
+
+                    >
+                </div>
+
+
+
+
+            <hr>
+
+                  </div>
+                  <div class="modal-footer">
+
+                    <div class="loading" *ngIf="bundleIsLoading" >
+                      <app-spinner></app-spinner>
+                    </div>
+
+
+
+                      <button type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"><i class="fas fa-sign-out-alt"></i>Close</button>
+                    <button type="submit" (click)="onSaveBundle()"
+                    [disabled]="itemsForm.invalid"  class="btn btn-primary"  ><i class="far fa-save"></i>{{onBundleTxtBtn}}</button>
+
+
+
+
+
+                  </div>
+  </form>
+    </div>
+
+
+  </div>
+</div>
+
+
+<!--  CREATE NEW (BUNDLE) (FORFAIT END)-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

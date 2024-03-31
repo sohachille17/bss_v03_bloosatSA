@@ -1,0 +1,63 @@
+.btn-primary{
+    margin-left: 15px;
+}
+.sub-head{
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.pagination{
+    float: right;
+}
+.validation-error{
+  color: red;
+  font-size: 10px ;
+}
+.displaying{
+  display: none;
+}
+.oss_status{
+  display: flex;
+  justify-content: space-between;
+}
+.b__n{
+  background: #BFEA7C;
+  color: white;
+  font-weight: bold;
+}
+.b__t{
+  background: #e599f7;
+}
+.b__test{
+  background: #2f4800;
+  color: white;
+}
+
+ /* .table tr:nth-child(1) td {
+  background-color: #9BBEC8;
+  color: white;
+  font-weight: bold;
+  } */
+  /*
+  .table tr:nth-child(2) td {
+
+  background-color:#739072;
+  color: white;
+  font-weight: bold;
+  } */
+
+.kaf__btn{
+
+  display: flex;
+  justify-content: space-between;
+
+}
+.btn-light{
+  color: blue;
+  font-weight: bolder;
+}
+.imgs{
+  width: 150px;
+}
+
+

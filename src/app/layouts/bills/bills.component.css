@@ -1,0 +1,10 @@
+.waring-msg{
+    color: red;
+    font-size: 18px;
+    font-weight: 900;
+    text-align: center;
+}
+.pagination{
+    padding: 20px 16px;
+    float: right;
+}

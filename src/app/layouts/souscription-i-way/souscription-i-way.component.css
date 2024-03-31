@@ -1,0 +1,27 @@
+.btn-primary{
+  margin-left: 15px;
+}
+.sub-head{
+cursor: pointer;
+display: flex;
+justify-content: space-between;
+}
+.pagination{
+  float: right;
+}
+.validation-error{
+color: red;
+font-size: 10px ;
+}
+.displaying{
+display: none;
+}
+.oss_status{
+display: flex;
+justify-content: space-between;
+}
+.switch_color{
+  background: #e03131;
+  color: white;
+  font-weight: bold;
+}

@@ -1,0 +1,14 @@
+.card-header{
+  display: flex;
+  justify-content: space-between;
+}
+.pagination{
+  padding: 20px 16px;
+  float: right;
+}
+.imgs{
+width: 150px;
+}
+.ts{
+display: flex;
+}

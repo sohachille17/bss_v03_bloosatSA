@@ -1,0 +1,190 @@
+<div class="pcoded-wrapper">
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+
+                                        <h5 class="m-b-10">Toutes les Catégoires</h5>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+
+
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <button  type="button" class="btn btn-success"  data-toggle="modal" data-target="#registerModel" (click)="onChange()"> <i style="font-size: 25px;" class='bx bx-message-square-add'></i> </button>
+                                </div>
+                                <div class="card-body table-border-style">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nom de la Catégorie</th>
+                                                    <!-- <th>Category Description</th> -->
+                                                    <th>Date de création</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <div *ngIf="categoryData.length  < 1 spinner">
+                                                    <app-spinner></app-spinner>
+                                                </div>
+
+                                                <tr *ngFor="let category of categoryData  | paginate: { itemsPerPage: 10, currentPage: page, totalItems:totalLength }">
+                                                    <td>{{category.id}}</td>
+                                                    <td>{{category.categoryName}}</td>
+                                                    <!-- <td>{{category.categoryDescription}}</td> -->
+                                                    <td>{{category.created_at | date: 'short'}}</td>
+
+
+                                                    <td>
+                                                        <div class="btn-group mb-2 mr-2">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item" data-toggle="modal" data-target="#registerModel" (click)="onEditCat(category.id)">modifier</a>
+                                                                <a class="dropdown-item delete-drop" (click)="onDeleteCategory(category.id)">supprimer</a>
+                                                            </div>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="pagination">
+                            <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                        </div>
+
+
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- customer model form START -->
+
+    <!-- Large modal -->
+
+
+
+
+
+    <!-- Large modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Register User Form-->
+  <!-- Modal -->
+  <div class="modal fade" id="registerModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <form [formGroup]="categoryForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModelLabel" *ngIf="isEditeMode === false">Category Form</h5>
+          <h5 class="modal-title" id="registerModelLabel" *ngIf="isEditeMode === true">Edit Category Form</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="form-group">
+
+                <input
+                type="text"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="Category Name"
+                formControlName="categoryName"
+                [class.is-invalid]="categoryName?.touched && categoryName?.invalid"
+                 >
+
+                 <div class="validation-error" *ngIf="categoryName?.touched && categoryName?.invalid">
+                    <div *ngIf="categoryName?.errors?.['required']"> Sorry, Category Name is required</div>
+                    <div *ngIf="categoryName?.errors?.['minlength']">Sorry provid atleast 6 characters long!!!</div>
+                 </div>
+            </div>
+            <div class="form-group">
+
+               <textarea
+                placeholder="Category Description"
+                class="form-control"
+                cols="30"
+                rows="10"
+                formControlName="categoryDescription"
+                [class.is-invalid]="categoryDescription?.touched && categoryDescription?.invalid" ></textarea>
+
+                <div class="validation-error" *ngIf="categoryDescription?.touched && categoryDescription?.invalid">
+                  <div *ngIf="categoryDescription?.errors?.['required']">Category is required sorry!!</div>
+                  <div *ngIf="categoryDescription?.errors?.['minlength']">Sorry but provide upto 20 characters long</div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+        <div class="modal-footer">
+            <div *ngIf="categoryForm.valid && isSpinning === true">
+                <app-spinner></app-spinner>
+            </div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button *ngIf="isEditeMode === true"  type="button" class="btn btn-primary" [disabled]="categoryForm.invalid" (click)="onSubmitCategoryForm()">Modifier</button>
+          <button *ngIf="isEditeMode === false"  type="button" class="btn btn-primary" [disabled]="categoryForm.invalid" (click)="onSubmitCategoryForm()">Ajouter</button>
+
+        </div>
+      <!-- FORM SECTION-->
+
+      </div>
+    </form>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

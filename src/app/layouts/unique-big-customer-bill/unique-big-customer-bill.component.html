@@ -1,0 +1,216 @@
+
+<div class="pcoded-wrapper">
+  <div class="pcoded-content">
+      <div class="pcoded-inner-content">
+          <div class="main-body">
+              <div class="page-wrapper">
+                  <!-- [ breadcrumb ] start -->
+                  <div class="page-header">
+                      <div class="page-block">
+                          <div class="row align-items-center">
+                              <div class="col-md-12">
+                                  <div class="page-header-title">
+                                      <h5 *ngIf="customerD"> [customer :{{customerD.username}}]</h5>
+
+                                  </div>
+
+                                  <ul class="breadcrumb">
+                                      <li class="breadcrumb-item"><a href="index.html"><i class="fas fa-money-check-alt"></i></a></li>
+                                      <li class="breadcrumb-item"><a href="#!">BSS grand client</a></li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- [ breadcrumb ] end -->
+                  <!-- [ Main Content ] start -->
+                  <div class="row">
+                      <!-- Form  Submit here-->
+
+                      <!-- [ form-element ] start -->
+                  <div class="col-sm-12">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          <div class="row">
+
+
+                              <div class="col-xl-12">
+                                  <div class="card">
+                                      <div class="card-header">
+
+                                        <div class="ts" >
+                                          <button  type="button" class="btn btn-primary"  (click)="onSiteForm()"> <i class="fas fa-plus"></i> </button>
+
+                                          <div class="main-search open">
+                                              <div class="input-group">
+                                                  <input type="text" id="m-search" class="form-control" placeholder="Search . . ." >
+                                                  <!-- <input type="text" id="m-search" class="form-control" placeholder="Search . . ." [(ngModel)]="searchTextL"> -->
+
+                                                  <span class="input-group-append search-btn btn btn-primary">
+                                                      <i style="color: white;" class="feather icon-search input-group-text"></i>
+                                                  </span>
+                                              </div>
+                                          </div>
+                                        </div>
+
+
+
+                                          <div class="suspention__btn">
+
+                                            <!-- <h4 style="color: blue; font-weight: bold;">BSS SOUSCRIPTION</h4>
+                                             -->
+                                             <img class="imgs" src="{{img}}" alt="">
+
+
+
+                                          </div>
+                                      </div>
+                                      <div class="card-body table-border-style">
+                                          <div class="table-responsive">
+
+                                              <table class="table table-striped">
+                                                  <thead>
+
+                                                      <tr>
+                                                          <!-- <th>#</th> -->
+                                                          <th>Bill Number</th>
+                                                          <th style="font-weight: bolder; color: black;">Customer Name</th>
+                                                          <th style="color: blue; font-weight:bolder">Amount</th>
+                                                          <th>Reductions</th>
+                                                          <th>tax</th>
+                                                          <th style=" font-weight:bol;">Status</th>
+                                                          <!-- <th>Registered Date</th> -->
+                                                          <th>Date limit</th>
+                                                          <th>date cree</th>
+                                                          <th>Action</th>
+                                                          <!-- <th>Actions</th> -->
+                                                      </tr>
+
+
+                                                  </thead>
+                                                  <tbody *ngIf="(bigDataBill | async) as billData">
+                                                      <div *ngIf="loading">
+                                                          <app-spinner></app-spinner>
+                                                      </div>
+
+
+                                                     <tr *ngFor="let bigCustomer of billData ; let i = index">
+
+                                                      <td>{{bigCustomer.billNumber}}</td>
+                                                      <td style="font-weight: bold;">{{bigCustomer.customerName}}</td>
+                                                      <td  style="color: blue; font-weight:bolder">{{bigCustomer.total | currency: 'XOF'}}</td>
+                                                      <td>{{bigCustomer.discount | currency: 'XOF'}}</td>
+                                                      <td>{{100 | currency:'XOF'}}</td>
+                                                      <td>
+                                                          <span class="badge badge-pill badge-{{ON_GOING_STATUS[bigCustomer.isPayed].status}}">{{ON_GOING_STATUS[bigCustomer.isPayed].label}}</span>
+                                                      </td>
+                                                      <td>{{bigCustomer.billDate | date:'short'}}</td>
+                                                      <td>{{bigCustomer.created_at | date:'short'}}</td>
+                                                      <td>
+                                                          <div class="btn-group mb-2 mr-2">
+                                                              <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                                                              <div class="dropdown-menu">
+
+
+
+
+
+
+
+                                                                  <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" (click)="onPrintInvoice(bigCustomer.id)">view</a>
+                                                                  <!-- <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" (click)="onEditeData(1)">modifier facture</a> -->
+
+                                                              </div>
+
+                                                          </div>
+                                                      </td>
+                                                     </tr>
+
+
+
+
+
+
+
+                                                  </tbody>
+                                              </table>
+
+
+
+
+                                          </div>
+                                      </div>
+
+                                  </div>
+                                  <div class="pagination">
+                                      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                                  </div>
+
+                              <button routerLink="/big-customers" class="btn btn-danger"><i class="fas fa-arrow-left"></i> back</button>
+
+                              </div>
+
+
+
+                          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      </div>
+
+
+
+                        <!-- Form  Submit here-->
+
+
+
+
+                      <!-- [ form-element ] end -->
+                      <!-- [ Main Content ] end -->
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

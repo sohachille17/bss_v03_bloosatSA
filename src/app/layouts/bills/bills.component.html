@@ -1,0 +1,250 @@
+
+<div class="pcoded-wrapper">
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">Nos Factures</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+
+
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div style="display: flex;" class="card-header">
+
+                                    <!--<button  type="button" class="btn btn-success"  data-toggle="modal" data-target="#registerModel" href="#!"> <i style="font-size: 25px;" class='bx bx-plus-medical' ></i> </button> -->
+                                    <button  type="button" class="btn btn-success"   routerLink="/bills-form"> <i style="font-size: 25px;" class='bx bx-plus-medical' ></i> </button>
+                                    <button  type="button" class="btn btn-primary"  data-toggle="modal" data-target=".bd-example-modal-lg" > <i style="font-size: 25px;" class='bx bxs-file-plus'></i> </button>
+
+                                    <div class="main-search open">
+                                        <div class="input-group">
+                                            <input type="text" id="m-search" class="form-control" placeholder="Search . . ." [(ngModel)]="searchTextL">
+
+                                            <span class="input-group-append search-btn btn btn-primary">
+                                                <i style="color: white;" class="feather icon-search input-group-text"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+                                <div class="card-body table-border-style">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <!-- <th>#</th> -->
+                                                    <th>Bill Number</th>
+                                                    <th style="font-weight: bolder; color: black;">Customer Name</th>
+                                                    <th style="color: blue; font-weight:bolder">Amount</th>
+                                                    <th>Reductions</th>
+                                                    <th>tax</th>
+                                                    <th style=" font-weight:bol;">Status</th>
+                                                    <!-- <th>Registered Date</th> -->
+                                                    <th>Date limit</th>
+                                                    <th>date cree</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <div *ngIf="invoiceData.length  < 1 spinner">
+                                                    <app-spinner></app-spinner>
+                                                </div>
+                                                <tr *ngFor="let invoice of invoiceData | paginate: { itemsPerPage: 10, currentPage: page, totalItems:totalLength } | search: searchTextL   ; let i = index">
+                                                    <!-- <td>{{i}}</td> -->
+                                                    <td>{{invoice.billNumber}}</td>
+                                                    <td style="font-weight: bolder; color: black;">{{invoice.customerName}}</td>
+                                                    <td style="color: blue; font-weight:bolder">{{invoice.total | currency: 'XOF'}}</td>
+                                                    <td>{{invoice.reduction_in | currency: 'XOF' }} </td>
+                                                    <td>{{invoice.tax_in | currency: 'XOF'}}</td>
+
+                                                    <td *ngIf="invoice.status == 1">
+                                                        <span class="badge badge-pill badge-success">paid</span>
+                                                    </td>
+                                                    <td *ngIf="invoice.status == 0">
+                                                        <span class="badge badge-pill badge-danger">unpaid</span>
+                                                    </td>
+
+                                                    <td>{{invoice.dateLimit}}</td>
+                                                    <td>{{invoice.created_at | date: 'short'}}</td>
+                                                    <!-- <td>12/09/2023</td> -->
+
+
+                                                    <td>
+                                                        <div class="btn-group mb-2 mr-2">
+                                                            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                                                            <div class="dropdown-menu">
+
+
+
+
+
+                                                                <a *ngIf="userRole === 'admin'" class="dropdown-item"  data-target="#exampleModal" data-toggle="modal" (click)="onDeleteInvoice(invoice.id)"  >delete</a>
+                                                                <a class="dropdown-item" (click)="editInvoiceForm(invoice.id)" >edit</a>
+                                                                <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" (click)="onPrintInvoice(invoice.id)">view</a>
+
+                                                            </div>
+
+                                                        </div>
+                                                                                                          <!-- Details fo customer -->
+
+                                                    </td>
+
+
+
+
+
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pagination">
+                                <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- customer model form START -->
+
+    <!-- Large modal -->
+
+
+
+
+
+    <!-- Large modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Register User Form-->
+  <!-- Modal -->
+  <div class="modal fade" id="registerModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModelLabel">Ajouter Facture</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+            <div class="form-group">
+
+                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Bill Number" >
+            </div>
+
+            <div class="form-group" >
+                <label for="exampleFormControlSelect1">Clients</label>
+                <select
+                class="form-control"
+
+                id="exampleFormControlSelect1">
+
+
+                    <option [disabled]>--select-client--</option>
+                    <option>Test</option>
+
+
+                </select>
+
+
+            </div>
+            <div class="form-group" >
+                <label for="exampleFormControlSelect1">Status</label>
+                <select
+                class="form-control"
+
+                id="exampleFormControlSelect1">
+
+
+                    <option [disabled]>--select-status--</option>
+                    <option>Test</option>
+
+
+                </select>
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary"><i class='bx bx-plus-medical' ></i>Ajouter</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

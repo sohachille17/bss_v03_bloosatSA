@@ -1,0 +1,17 @@
+.suspention{
+  font-size: 30px;
+  font-weight: bold;
+  color: green;
+
+}
+.new-alert{
+ font-weight: bold;
+ color: green;
+ font-size: 20px;
+ display: flex;
+ justify-content: space-between;
+}
+.card-header{
+  display: flex;
+  justify-content: space-between;
+}

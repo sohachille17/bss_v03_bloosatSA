@@ -1,0 +1,408 @@
+<div class="pcoded-wrapper">
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">Tout les services</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+
+
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-header flex-content">
+                                    <button  type="button" class="btn btn-success"  data-toggle="modal" data-target="#registerModel" (click)="onInit()"> <i style="font-size: 25px;" class='bx bx-message-square-add'></i> </button>
+                                    <button  type="button" class="btn btn-primary"  data-toggle="modal" (click)="onExportToExcel()" > <i style="font-size: 25px;" class='bx bxs-file-plus'></i> </button>
+
+                                    <div class="main-search open">
+                                        <div class="input-group">
+                                            <input type="text" id="m-search" class="form-control" placeholder="Search . . ." [(ngModel)]="searchTextL">
+
+                                            <span class="input-group-append search-btn btn btn-primary">
+                                                <i style="color: white;" class="feather icon-search input-group-text"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body table-border-style">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <!-- <th>#</th> -->
+                                                    <th>Nom du service</th>
+                                                    <th>Libelle</th>
+                                                    <th  style="font-weight: bold; color:blue;">Prix du service</th>
+                                                    <th>Code</th>
+                                                    <th>Description</th>
+                                                    <th style="font-weight: bolder;">Enregistre par</th>
+                                                    <th>Enregistre le</th>
+
+
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <div *ngIf="serviceData.length  < 1 spinner">
+                                                    <app-spinner></app-spinner>
+                                                </div>
+
+                                                <tr *ngFor="let serviceD of serviceData | search: searchTextL   | paginate: { itemsPerPage: 10, currentPage: page, totalItems:totalLength }; let i = index">
+                                                    <!-- <td>{{serviceD.id}}</td> -->
+                                                    <td>{{serviceD.serviceName | slice:0:12}}</td>
+                                                    <td>{{serviceD.serviceCapacity}}</td>
+                                                    <td style="font-weight: bold; color:blue;">{{ serviceD.amount | currency: 'XOF'}}</td>
+                                                    <td>{{serviceD.code}}</td>
+                                                    <td>{{serviceD.description | slice:0:6}}</td>
+                                                    <td style="font-weight: bolder;">{{serviceD.registeredBy}}</td>
+                                                    <td>{{serviceD.created_at | date:'short'}}</td>
+
+
+
+                                                    <td>
+                                                        <div class="btn-group mb-2 mr-2">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item " data-toggle="modal" data-target="#registerModel" (click)="onEditBloosatService(serviceD.id)">modifier</a>
+                                                                <a *ngIf="userRole === 'admin'" class="dropdown-item  " (click)="onDeleteService(serviceD.id)">supprimer</a>
+                                                                <a class="dropdown-item  " data-toggle="modal" data-target="#exampleModal" (click)="onViewDetailService(serviceD.id)">details</a>
+                                                            </div>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pagination">
+                                <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- customer model form START -->
+
+    <!-- Large modal -->
+
+
+
+
+
+    <!-- Large modal -->
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Register User Form-->
+  <!-- Modal -->
+  <div class="modal fade" id="registerModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 *ngIf="editMode === false" class="modal-title" id="registerModelLabel">Ajouter Service</h5>
+          <h5 *ngIf="editMode === true" class="modal-title" id="registerModelLabel">Modifier Service</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    <form [formGroup]="serviceForm" (ngSubmit)="onSubmitService()">
+        <div class="modal-body">
+
+            <div class="form-group">
+
+                <input
+                type="text"
+                class="form-control"
+                formControlName="serviceName"
+                id="exampleInputPassword1"
+                placeholder="Service Name"
+                [class.is-invalid]="serviceName?.touched && serviceName?.invalid">
+                <div class="validation-error" *ngIf="serviceName?.touched && serviceName?.invalid">
+                    <div *ngIf="serviceName?.touched">Service name is required!!</div>
+                </div>
+            </div>
+            <div class="form-group">
+
+                <input
+                type="email"
+                class="form-control"
+                formControlName="serviceCapacity"
+                id="exampleInputPassword1"
+                placeholder="Libelle"
+                [class.is-invalid]="serviceCapacity?.touched && serviceCapacity?.invalid">
+
+                <div class="validation-error" *ngIf="serviceCapacity?.touched && serviceCapacity?.invalid">
+                    <div *ngIf="serviceCapacity?.touched">libelle is required</div>
+                </div>
+
+            </div>
+            <div class="form-group">
+
+                <input
+                type="number"
+                class="form-control"
+                formControlName="amount"
+                id="exampleInputPassword1"
+                placeholder="Amount"
+                [class.is-invalid]="amount?.touched && amount?.invalid">
+
+                <div class="validation-error" *ngIf="amount?.touched && amount?.invalid">
+                    <div *ngIf="amount?.touched">Amount is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+
+                <input
+                type="text"
+                class="form-control"
+                formControlName="code"
+                id="exampleInputPassword1"
+                placeholder="Code"
+                [class.is-invalid]="code?.touched && code?.invalid ">
+
+                <div class="validation-error" *ngIf="code?.touched && code?.invalid">
+                    <div *ngIf="code?.touched">Code is required</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <textarea
+                placeholder="Service Description"
+                class="form-control"
+                formControlName="description"
+                cols="30"
+                rows="10"
+                [class.is-invalid]="description?.touched && description?.invalid">
+
+                <div class="validation-error">
+                    <div *ngIf="description?.touched">Description is required!!</div>
+                </div>
+                </textarea>
+            </div>
+
+            <div class="form-group" *ngIf="editMode === true">
+
+                <input
+                type="text"
+                class="form-control"
+                formControlName="registeredBy"
+                id="exampleInputPassword1"
+                placeholder="..........">
+
+
+
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+
+            <div *ngIf=" serviceForm.valid && isSpinner === true">
+                <app-spinner></app-spinner>
+            </div>
+
+
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button *ngIf="editMode === false" type="submit" class="btn btn-primary" [disabled]="serviceForm.invalid">Ajouter</button>
+          <button *ngIf="editMode === true" type="submit" class="btn btn-primary" [disabled]="serviceForm.invalid"><i class='bx bx-pencil'></i>Modifier</button>
+
+        </div>
+
+    </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <ng-template #loader>
+    <app-spinner></app-spinner>
+  </ng-template>
+
+
+      <!-- View Data Details Start -->
+      <div  class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Service Details</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" *ngIf="serviceDetailsUnique else loader">
+              <form>
+                <div class="form-group">
+
+                    <input
+                     type="text"
+                     class="form-control"
+                     id="exampleInputPassword1"
+                     value={{serviceDetailsUnique.serviceName}}
+                      disabled>
+                </div>
+                <div class="form-group">
+
+                    <input
+                     type="text"
+                     class="form-control"
+                     id="exampleInputPassword1"
+                     value={{serviceDetailsUnique.service_capacity}}
+                      disabled>
+                </div>
+                <div class="form-group">
+
+                    <input
+                     type="text"
+                     class="form-control"
+                     id="exampleInputPassword1"
+                      value={{serviceDetailsUnique.amount}}
+                      disabled>
+                </div>
+                <div class="form-group">
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    id="exampleInputPassword1"
+                    value={{serviceDetailsUnique.code}}
+                    disabled>
+                </div>
+
+                <div class="form-group">
+
+                    <textarea
+                    placeholder="Service Description"
+                    class="form-control"
+                    value={{serviceDetailsUnique.description}}
+                    cols="30"
+                    rows="10" disabled>
+                    </textarea>
+                </div>
+                <div class="form-group">
+
+                    <input
+                    type="text"
+                    class="form-control"
+                    id="exampleInputPassword1"
+                    value={{serviceDetailsUnique.registeredBy}}
+                   disabled>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- View Data Details ends -->
+
+
+
+
+     <!-- Data to Excel -->
+
+
+  <table class="table table-striped" id="table-data" style="display: none;">
+
+    <thead>
+        <tr>
+            <!-- <th>#</th> -->
+            <th>Service Name</th>
+            <th>Libelle</th>
+            <th  style="font-weight: bold; color:blue;">Amount</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th style="font-weight: bolder;">Enregistre par</th>
+            <th>Enregistre le</th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        <div *ngIf="serviceData.length  < 1 spinner">
+            <app-spinner></app-spinner>
+        </div>
+
+        <tr *ngFor="let serviceD of serviceData | search: searchTextL ; let i = index">
+            <!-- <td>{{serviceD.id}}</td> -->
+            <td>{{serviceD.serviceName }}</td>
+            <td>{{serviceD.serviceCapacity}}</td>
+            <td>{{ serviceD.amount | currency: 'XOF'}}</td>
+            <td>{{serviceD.code}}</td>
+            <td>{{serviceD.description}}</td>
+            <td>{{serviceD.registeredBy}}</td>
+            <td>{{serviceD.created_at | date:'short'}}</td>
+
+
+
+
+        </tr>
+
+
+
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

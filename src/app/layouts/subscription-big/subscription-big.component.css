@@ -1,0 +1,36 @@
+.flex{
+  display: flex;
+  justify-content: space-between;
+}
+.text-left{
+  display: flex;
+  justify-content: space-between;
+}
+
+.validation-error{
+  color: red;
+  font-size: 10px ;
+}
+.sous-item{
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+.rgx_name{
+  font-weight: bold;
+  color: black;
+}
+.sous-item_{
+
+ font-weight: bold;
+  font-size: 16px;
+}
+.tt{
+  text-decoration: none;
+}
+.b__n{
+  background: #a2cee8;
+  font-weight: bold;
+}
+
+

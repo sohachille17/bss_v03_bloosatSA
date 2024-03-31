@@ -1,0 +1,452 @@
+<div class="pcoded-wrapper">
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+
+                                        <h5 class="m-b-10">PAIEMENT [{{customerName}}]</h5>
+                                    </div>
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="index.html"><i class="fas fa-money-check-alt"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="#!">BSS Paiement</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+                        <!-- Form  Submit here-->
+
+                        <!-- [ form-element ] start -->
+                    <div class="col-sm-12">
+                <form [formGroup]="paymentForm">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 style="color: red;">Aujourdhui : {{toDay | date}} </h5>
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="marc">
+
+
+
+                                        </div>
+
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+
+                                                <div class="form-group " style="display: none;">
+
+                                                    <div class="col-sm-9">
+
+                                                        <input formControlName="customerId"
+                                                         type="text"
+                                                         placeholder="client ID"
+                                                          class="form-control"
+                                                        >
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group ">
+
+                                                    <div class="col-sm-9">
+                                                        <input
+                                                        formControlName="siteName"
+                                                         type="text"
+                                                         placeholder="SITE NAME"
+                                                         class="form-control"
+                                                         [class.is-invalid]="siteName?.touched && siteName?.invalid"
+                                                         >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+
+                                                        <input
+                                                        formControlName="payementDate"
+                                                         type="date"
+                                                         class="form-control"
+                                                         [class.is-invalid]="payementDate?.touched && payementDate?.invalid"
+                                                         >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-9">
+
+                                                        <input
+                                                        formControlName="amount"
+                                                        type="number"
+                                                        placeholder="Amount to pay"
+                                                         class="form-control"
+                                                         [class.is-invalid]="amount?.touched && amount?.invalid">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" style="opacity: 0;">
+
+                                                    <div class="col-sm-9">
+
+                                                        <input
+                                                        formControlName="id"
+                                                        type="text"
+                                                        placeholder="Amount to pay"
+                                                        class="form-control"
+                                                         [class.is-invalid]="amount?.touched && amount?.invalid">
+                                                    </div>
+                                                </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                                  <div class="form-group ">
+
+                                                    <div class="col-sm-9">
+                                                       <select
+                                                       formControlName="billReference"
+                                                       (change)="selectPayment()"
+                                                       class="form-control"
+                                                       [class.is-invalid]="billReference?.touched && billReference?.invalid">
+
+                                                       <option value="">--SELECT--CUSTOMER-BILL-REF</option>
+                                                        <option  *ngFor="let billsData of customerUniqueBills" [value]="billsData.id" >{{billsData.billNumber}}   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{STATUS_PAYMENT[billsData.status].label}}</option>
+                                                       </select>
+                                                    </div>
+                                                </div>
+
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Mode de paiement : </h5>
+                                </div>
+                                <div class="card-body">
+
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+
+                                            <div class="form-check">
+                                                <input formControlName="paymentMethod" value="En Ligne(CD)" (change)="onChange($event)" class="form-check-input" type="radio" id="flexRadioDefault1">
+                                                <label  class="form-check-label" for="flexRadioDefault1">
+                                                  En Ligne(CD)
+                                                </label>
+                                              </div>
+                                              <div class="form-check">
+                                                <input formControlName="paymentMethod" (change)="onChange($event)" value="Virement bancaire" class="form-check-input" type="radio" id="flexRadioDefault2" checked>
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                  Virement bancaire
+                                                </label>
+                                              </div>
+                                            <div class="form-check">
+                                                <input formControlName="paymentMethod" (change)="onChange($event)" value="Depot EU" class="form-check-input" type="radio" id="flexRadioDefault1">
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                  Depot EU
+                                                </label>
+                                              </div>
+                                              <div class="form-check">
+                                                <input formControlName="paymentMethod" (change)="onChange($event)" value="MTN MOBILE MONEY" class="form-check-input" type="radio" id="flexRadioDefault2" checked>
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                  MTN MOBILE MONEY
+                                                </label>
+                                              </div>
+
+                                            <div class="form-check">
+                                                <input formControlName="paymentMethod" (change)="onChange($event)" value=" ORANGE MONEY" class="form-check-input" type="radio" id="flexRadioDefault1">
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                  ORANGE MONEY
+                                                </label>
+                                              </div>
+                                              <div class="form-check">
+                                                <input formControlName="paymentMethod" (change)="onChange($event)" value="ESPECE" class="form-check-input" type="radio"  id="flexRadioDefault2" checked>
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                 ESPECE
+                                                </label>
+                                              </div>
+                                              <div class="form-check">
+                                                <input formControlName="paymentMethod" (change)="onChange($event)" value="CHEQUE" class="form-check-input" type="radio"  id="flexRadioDefault2" checked>
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                               CHEQUE
+                                                </label>
+                                              </div>
+
+
+
+
+
+
+
+                                        </div>
+                                        <div class="col-md-6">
+
+
+
+                                            <div class="form-group ">
+
+                                                <div class="col-sm-9">
+                                                    <input type="text"
+                                                    formControlName="transactionNumber1"
+                                                    placeholder="Numero de transaction 001"
+                                                    class="form-control"
+                                                    [class.is-invalid]="transactionNumber1?.touched && transactionNumber1?.invalid">
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+
+                                                <div class="col-sm-9">
+                                                    <input
+                                                    type="text"
+                                                    formControlName="transactionNumber2"
+                                                     placeholder="Numero de transaction 002"
+                                                      class="form-control"
+                                                      [class.is-invalid]="transactionNumber2?.touched && transactionNumber2?.invalid">
+                                                </div>
+                                            </div>
+                                            <!-- <div class="form-group ">
+
+                                                <div class="col-sm-9">
+                                                    <input type="file"  placeholder="Bill references" class="form-control"  id="inputPassword" >
+                                                </div>
+                                            </div> -->
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Mode de paiement : </h5>
+                                </div>
+                                <div class="card-body">
+
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+
+
+                                            <div class="form-group ">
+
+                                                <div class="col-sm-9">
+                                                    <input
+                                                     (change)="onFileChanged($event)"
+                                                     type="file"
+                                                     placeholder="Bill references"
+                                                     class="form-control"
+
+                                                   >
+
+                                                </div>
+
+                                            </div>
+                                            <!-- <div class="form-group ">
+
+                                                <div class="col-sm-9">
+                                                    <input (change)="onFileChange($event)" type="file"  placeholder="Bill references" class="form-control"  id="inputPassword" >
+                                                </div>
+                                            </div> -->
+                                            <div style="opacity: 0;" class="form-group ">
+
+                                                <div class="col-sm-9">
+                                                    <input type="text"
+                                                     placeholder="Intitullée à mettre sur le reçu"
+                                                      class="form-control"
+                                                     d="inputPassword" >
+                                                </div>
+                                            </div>
+
+                                            <button [disabled]="paymentForm.invalid" type="submit" class="btn btn-primary" (click)="onSavePayment()"><i class="fas fa-shopping-cart"></i>payer</button>
+                                            <button type="button" class="btn btn-danger" routerLink="/customers"><i class="fas fa-times"></i>back</button>
+
+
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-sm-9">
+                                                <textarea
+                                                    formControlName="comment"
+                                                  placeholder="Commentaire"
+                                                  class="form-control"
+                                                  cols="20" rows="7"
+                                                  [class.is-invalid]="comment?.touched && comment?.invalid">
+                                                </textarea>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <div class="row">
+
+
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                           <h4> Details</h4>
+                                        </div>
+                                        <div class="card-body table-border-style">
+                                            <div class="table-responsive">
+
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                        <th>Facture</th>
+                                                        <th style="font-weight: bolder; color: black;">Mode de paiement</th>
+                                                        <th style="color: blue; font-weight:bolder">Montant</th>
+                                                        <th>Date Enregistree</th>
+                                                        <th style="color: blue;">Enregistre Par</th>
+                                                        <th>Action</th>
+
+
+
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <div *ngIf="customerPayment?.length  < 1 spinner">
+                                                            <app-spinner></app-spinner>
+                                                        </div>
+
+
+                                                        <tr *ngFor="let cusPayment of customerPayment  | paginate: { itemsPerPage: 10, currentPage: page, totalItems:totalLength }">
+                                                            <td>{{cusPayment.billReference}}</td>
+                                                            <td>{{cusPayment.paymentMethod}}</td>
+                                                            <td  style="color: blue;">{{cusPayment.amount | currency:'XOF'}}</td>
+                                                            <td>{{cusPayment.payementDate}}</td>
+                                                            <td style="color: blue; font-weight:bold">{{cusPayment.registeredBy}}</td>
+
+
+                                                            <td>
+                                                                <div class="btn-group mb-2 mr-2">
+                                                                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                                                                    <div class="dropdown-menu">
+                                                                        <a class="dropdown-item" data-toggle="modal" data-target="#registerModel" (click)="onLoadPayment(cusPayment.id)">Paiement</a>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+
+
+
+
+
+
+
+
+                                                    </tbody>
+                                                </table>
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="pagination">
+                                        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+
+
+
+                          <!-- Form  Submit here-->
+
+
+
+
+                        <!-- [ form-element ] end -->
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

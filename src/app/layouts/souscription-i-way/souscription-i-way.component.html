@@ -1,0 +1,402 @@
+<div class="pcoded-wrapper">
+  <div class="pcoded-content">
+      <div class="pcoded-inner-content">
+          <div class="main-body">
+              <div class="page-wrapper">
+                  <!-- [ breadcrumb ] start -->
+                  <div class="page-header">
+                      <div class="page-block">
+                          <div class="row align-items-center">
+                              <div class="col-md-12">
+                                  <div class="page-header-title">
+
+                                      <h5 class="m-b-10">BSS SOUSCRIPTION IWAY</h5>
+                                  </div>
+                                  <ul class="breadcrumb">
+                                      <li class="breadcrumb-item"><a href="index.html"><i class="fab fa-osi"></i></a></li>
+                                      <li class="breadcrumb-item"><a href="#!">IWAY</a></li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- [ breadcrumb ] end -->
+                  <!-- [ Main Content ] start -->
+                  <div class="row">
+                      <!-- Form  Submit here-->
+
+                      <!-- [ form-element ] start -->
+                  <div class="col-sm-12">
+
+                          <div class="card">
+                              <div class="card-header oss_status" *ngIf="oss__KAF">
+                                  <span class="badge badge-pill badge-success"> I-WAY ECHOTEL :{{oss__KAF.service_activation_date | date:'short'}}</span>
+                                  <span *ngIf="oss__KAF.subscription_status" class="badge badge-pill badge-{{OSS_STATUS[oss__KAF.subscription_status].status}}">OSS SUBSCRIPTION  : {{OSS_STATUS[oss__KAF.subscription_status].label}}</span>
+
+
+                              </div>
+                              <div class="card-body">
+
+                              <div class="marc" >
+                                      <div class="sub-head">
+                                          <h5  style="color: blue;">[Souscription de :{{customerName}}]</h5>
+                                          <h5 style="color: blue;"><i class="fas fa-bold"></i>loosat.</h5>
+                                      </div>
+
+
+
+
+
+                                  <hr>
+                                  <!-- form soubscription START -->
+                              <form [formGroup]="souscriptionForm">
+                                  <div class="row">
+                                      <div class="col-md-6">
+
+
+                                              <div class="form-group ">
+                                                  <label  class="form-label">Facture :</label>
+                                                  <div class="col-sm-9">
+                                                      <select
+                                                      formControlName="billReference"
+                                                      class="form-control"
+                                                      (change)="onSelectBills()"
+                                                      [class.is-invalid]="billReference?.touched && billReference?.invalid">
+                                                      <option value="">--SLECT--</option>
+                                                       <option *ngFor="let billRef of billRef" [value]="billRef.id">{{billRef.billNumber}}</option>
+                                                      </select>
+
+                                                      <div class="validation-error" *ngIf="billReference?.touched && billReference?.invalid">
+                                                          <div *ngIf="billReference?.invalid">Bill REF - is required</div>
+                                                      </div>
+
+                                                  </div>
+                                              </div>
+                                              <div class="form-group displaying" >
+                                                  <input type="text" formControlName="id">
+                                              </div>
+
+                                              <div class="form-group ">
+
+                                                  <div class="col-sm-9">
+                                                      <input
+                                                      type="text"
+                                                      formControlName="serialNumber"
+                                                      placeholder="Numéro de série équipement"
+                                                      class="form-control"
+                                                      [class.is-invalid]="serialNumber?.touched && serialNumber?.invalid">
+
+
+                                                      <div class="validation-error" *ngIf="serialNumber?.touched && serialNumber?.invalid">
+                                                          <div *ngIf="serialNumber?.invalid">Serial number must be enter</div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="form-group ">
+
+                                                  <div class="col-sm-9">
+                                                      <input
+                                                      type="text"
+                                                      formControlName="subscriptionId"
+                                                      placeholder="Id sur le serveur"
+                                                      class="form-control"
+                                                      [class.is-invalid]="subscriptionId?.touched && subscriptionId?.invalid"
+                                                       >
+                                                       <div class="validation-error" *ngIf="subscriptionId?.touched && subscriptionId?.invalid">
+                                                          <div *ngIf="subscriptionId?.invalid">Subscription ID is a requirement</div>
+                                                       </div>
+                                                  </div>
+                                              </div>
+                                              <!-- <div class="form-group ">
+                                                  <label for="">Choisir une population</label>
+                                                  <div class="col-sm-9">
+
+                                                      <select
+                                                      formControlName="populationSouscription"
+                                                      class="form-control"
+                                                      [class.is-invalid]="populationSouscription?.touched && populationSouscription?.invalid">
+
+                                                          <option value="">--SELECT--population--</option>
+                                                          <option value="200047" >VNO-BLOOSAT</option>
+                                                          <option value="200045">BLOOSAT SA</option>
+                                                          <option value="200188">BLOOSAT SA-ADVANCE KA</option>
+                                                      </select>
+
+                                                      <div class="validation-error" *ngIf="populationSouscription?.touched && populationSouscription?.invalid">
+                                                          <div *ngIf="populationSouscription?.invalid">Please Select a population to subscribe</div>
+                                                      </div>
+
+                                                  </div>
+
+
+
+                                              </div> -->
+
+
+
+
+
+                                              <button type="submit" class="btn btn-primary" [disabled]="souscriptionForm.invalid" (click)="onSubmitSouscriptionKAF()"><i class="fas fa-plus-circle"></i>Enregistrer</button>
+                                              <button type="button" class="btn btn-danger" routerLink="/customers"><i class="fas fa-arrow-left"></i> Retour</button>
+
+                                      </div>
+                                      <div class="col-md-6">
+
+                                          <!--Starting date-->
+
+                                          <div class="form-group">
+
+                                              <div class="col-sm-9">
+                                                  <label>Date debut</label>
+                                                  <input type="date"
+                                                  (change)="onGetDate()"
+                                                  class="form-control"
+                                                  formControlName="startingDate"
+                                                  [class.is-invalid]="startingDate?.touched &&  startingDate?.invalid">
+
+
+
+
+                                                  <div class="validation-error" *ngIf="startingDate?.touched && startingDate?.invalid">
+                                                      <div *ngIf="startingDate?.invalid">Please select a correct starting date</div>
+                                                 </div>
+
+                                              </div>
+
+                                          </div>
+
+
+
+                                           <!--Starting date-->
+
+                                          <div class="form-group ">
+
+                                              <div class="col-sm-9">
+                                                  <input type="text"
+                                                  placeholder="Nom du site"
+                                                  class="form-control"
+                                                  formControlName="siteName"
+                                                  [class.is-invalid]="siteName?.touched && siteName?.invalid">
+
+                                                  <div class="validation-error" *ngIf="siteName?.touched && siteName?.invalid">
+                                                      <div *ngIf="siteName?.invalid">Site Name is required</div>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="form-group ">
+
+                                              <div class="col-sm-9">
+                                                  <select
+
+                                                  formControlName="serviceType"
+                                                  class="form-control"
+                                                  [class.is-invalid]="serviceType?.touched && serviceType?.invalid "
+                                                  >
+                                                      <option value="">Type services </option>
+                                                      <option >Bande Ka</option>
+                                                      <option>Bande Ku</option>
+                                                      <option >Bande C</option>
+                                                  </select>
+
+                                                  <div class="validation-error" *ngIf="serviceType?.touched && serviceType?.invalid">
+                                                      <div *ngIf="serviceType?.invalid">Please select a service Type</div>
+                                                  </div>
+
+                                              </div>
+                                          </div>
+                                              <!--Ending date-->
+
+                                              <div class="form-group ">
+
+                                                  <div class="col-sm-9">
+                                                      <!-- <label >Date fin</label> -->
+                                                      <input type="date"
+                                                      class="form-control"
+                                                      formControlName="endingData"
+                                                      [class.is-invalid]="endingData?.touched && endingData?.invalid">
+
+
+                                                      <div class="validation-error" *ngIf="endingData?.touched && endingData?.invalid">
+                                                          <div *ngIf="endingData?.invalid">Select an ending date</div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                                 <!--Ending date-->
+
+
+                                      </div>
+                                  </div>
+                              </form>
+                                  <!-- form soubscription END -->
+
+
+                              </div>
+                          </div>
+
+
+
+
+                          <!-- Details card for billing -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      </div>
+
+                        <!-- Form  Submit here-->
+
+
+
+
+                      <!-- [ form-element ] end -->
+                      <!-- [ Main Content ] end -->
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+
+
+
+  <!-- current subscription status START -->
+
+  <!-- <div class="row">
+
+
+      <div class="col-xl-12">
+          <div class="card">
+
+          </div>
+      </div>
+  </div> -->
+  <!-- current subscription status START -->
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="row">
+
+
+      <div class="col-xl-12">
+          <div class="card">
+
+
+              <div class="card-header">
+
+                      <button class="btn btn-success"><i class="fas fa-file-excel"></i></button>
+                      <button class="btn btn-info"><i class="fas fa-file-csv"></i></button>
+                      <button class="btn btn-primary"><i class="fas fa-copy"></i></button>
+
+              </div>
+              <div class="card-body table-border-style">
+                  <div class="table-responsive">
+
+                      <table class="table table-striped">
+                          <thead>
+                              <tr>
+                              <th>Date souscription</th>
+                              <th>Date d'expiration</th>
+                              <th>Facture</th>
+                              <th>Etat</th>
+                              <th>Status</th>
+                              <th>Type</th>
+                              <th>Situation</th>
+                              <th style="color: blue;">Cree par</th>
+                              <th>Action</th>
+
+
+
+
+                              </tr>
+                          </thead>
+                          <tbody>
+
+                              <tr [ngClass]="{
+                                'switch_color': sousData.subscriptionStatus === 'ongoing'
+                              }" *ngFor="let sousData of customerSubscriptionData">
+                                  <td>{{sousData.startingDate}}</td>
+                                  <td>{{sousData.endingDate}}</td>
+                                  <td>{{sousData.billReference}}</td>
+                                  <td>1</td>
+
+                                  <td>
+                                      <span class="badge badge-pill badge-{{subsStatus[sousData.paymentStatus].status}}">{{subsStatus[sousData.paymentStatus].label}}</span>
+                                  </td>
+
+                                  <td>{{sousData.serviceType}}</td>
+                                  <td>
+                                      <span class="badge badge-pill badge-{{onGoing[sousData.subscriptionStatus].status}}">{{onGoing[sousData.subscriptionStatus].label}}</span>
+                                  </td>
+                                  <!-- <td>{{sousData.subscriptionStatus}}</td> -->
+
+                                  <td  style="color: blue; font-weight: bold">{{sousData.registratorName}}</td>
+
+
+                                  <td>
+                                      <div class="btn-group mb-2 mr-2">
+                                          <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-pie-chart"></i></button>
+                                          <div class="dropdown-menu">
+
+
+
+                                              <a  class="dropdown-item unique_" data-toggle="modal"  data-target=".bd-example-modal-lg" (click)="onPayment()"><i class="fas fa-money-check-alt"></i>payer</a>
+
+
+                                          </div>
+                                      </div>
+                                  </td>
+
+
+
+
+
+
+                              </tr>
+
+
+
+                          </tbody>
+                      </table>
+
+
+
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+  </div>
+
+</div>
+
+
+
+
+

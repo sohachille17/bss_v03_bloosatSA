@@ -1,0 +1,24 @@
+.custom-loader {
+  width:76px;
+  height:12px;
+  display: flex;
+}
+.custom-loader:before,
+.custom-loader:after {
+  content:"";
+  flex:1;
+  background:
+    radial-gradient(farthest-side         ,#766DF4 90%,#0000) center/12px 100%,
+    radial-gradient(farthest-side at right,#766DF4 90%,#0000) right /6px  100%;
+  background-repeat: no-repeat;
+  transform:scale(var(--s,1)) translate(0px) rotate(0);
+  animation:d10 2s infinite;
+}
+.custom-loader:after {
+  --s:-1;
+}
+@keyframes d10 {
+    25%      {transform:scale(var(--s,1)) translate(-10px) rotate(0);}
+    50%      {transform:scale(var(--s,1)) translate(-10px) rotate(1turn);}
+    75%,100% {transform:scale(var(--s,1)) translate(0px)   rotate(1turn);}
+}

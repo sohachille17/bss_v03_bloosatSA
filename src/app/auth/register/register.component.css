@@ -1,0 +1,21 @@
+.delete-drop:hover{
+    background-color: red;
+    cursor: pointer;
+}
+
+
+.validation-error{
+    color: red;
+    font-size: 10px ;
+}
+.password-validations{
+    color: red;
+    font-size: 12px;
+
+}
+.see{
+    display: none;
+}
+.pagination{
+    float: right;
+}

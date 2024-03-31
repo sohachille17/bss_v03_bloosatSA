@@ -1,0 +1,26 @@
+.validation-error{
+    color: red;
+    font-size: 10px ;
+}
+.password-validations{
+    color: red;
+    font-size: 12px;
+
+}
+.see{
+    display: none;
+}
+.logo{
+    
+    height: 50px;
+}
+.info-section{
+    display: flex;
+    justify-content: space-between;
+}
+.version-test{
+    padding: 20px 0px 0px 0px;
+    color: blue;
+    font-weight: bold;
+    /* text-transform: uppercase; */
+}

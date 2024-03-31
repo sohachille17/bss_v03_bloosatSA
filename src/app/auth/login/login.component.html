@@ -1,0 +1,101 @@
+<!-- [ auth-signin ] start -->
+<div class="auth-wrapper">
+	<div class="auth-content container">
+		<div class="card">
+			<div class="row align-items-center">
+				<div class="col-md-6">
+					<div class="card-body">
+						<div class="info-section">
+							<img class="logo" [src]= imageLogo alt="">
+							<h5 class="version-test">v3.6.0</h5>
+						</div>
+
+						<h4 style="opacity: 0;" class="mb-3 f-w-400">Login into your account</h4>
+
+					<form [formGroup]="loginFormGroup">
+						<div class="input-group mb-2">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="feather icon-mail"></i></span>
+							</div>
+							<input
+
+							type="email"
+							class="form-control"
+							formControlName="email"
+							placeholder="Email address"
+							[class.is-invalid]="email?.touched && email?.invalid"
+
+							>
+
+
+						</div>
+						<div class="validation-error" *ngIf="email?.touched && email?.invalid">
+							<div *ngIf="email?.errors?.['required']">Sorry!! Email is required</div>
+							<div *ngIf="email?.errors?.['pattern']">Sorry!! provide correct email syntax</div>
+						</div>
+
+
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="feather icon-lock"></i></span>
+							</div>
+							<input type="password"
+							 class="form-control"
+							 formControlName="password"
+							 placeholder="Password"
+							 [class.is-invalid]="password?.touched && password?.invalid"
+							 >
+
+
+						</div>
+						<div [class.see]="password?.valid">
+							<div class="password-validations" *ngIf="password?.dirty">
+
+								<span class="block" [ngClass]="{'text-primary': password?.value?.match('^(?=.*[A-Z])')}">At least uppercase letter.</span>
+
+								<span class="block" [ngClass]="{'text-primary': password?.value?.match('(?=.*[a-z])')}">At least one lowercase letter.</span>
+
+								<span class="block" [ngClass]="{'text-primary': password?.value?.match('(.*[0-9].*)')}">At least one digit.</span>
+
+								<span class="block" [ngClass]="{'text-primary': password?.value?.match('(?=.*[!@#$%^&*])')}">At least one special character.</span>
+
+								<span class="block" [ngClass]="{'text-primary': password?.value?.match('.{8,}')}">At least 8 characters long.</span>
+							</div>
+						</div>
+
+						<!-- <div class="validation-error" *ngIf="password?.touched && password?.invalid">
+
+							<div *ngIf="password?.errors?.['required']">Sorry!! Password id required</div>
+							<div *ngIf="password?.errors?.['minlength']">Sorry!! password should be atleast 6 characters long
+							</div>
+
+						 </div> -->
+
+						<div class="form-group text-left mt-2">
+							<div class="checkbox checkbox-primary d-inline">
+								<input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
+								<label for="checkbox-fill-a1" class="cr"> Save credentials</label>
+							</div>
+						</div>
+						<button *ngIf="spinnerControl === false" class="btn btn-primary mb-4" (click)="onLoginUser()" [disabled]="loginFormGroup.invalid"><i class='bx bx-network-chart'></i>Login</button>
+
+
+
+						<div *ngIf="spinnerControl === true">
+							<app-spinner></app-spinner>
+						</div>
+						<!-- <div *ngIf="authError === true">
+							<h5 style="color: red; font-size: 15px">{{errorMessage}}</h5>
+						</div> -->
+					</form>
+					</div>
+				</div>
+				<div class="col-md-6 d-none d-md-block">
+					<img src="./assets/images/login.jpg" alt="" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- [ auth-signin ] end -->
+
